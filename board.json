@@ -1,0 +1,414 @@
+{
+  "boardTitle": "Main Core - Mega Expanded AAC",
+  "gridColumns": 8,
+  "tiles": [
+    {
+      "id": "f_pronouns",
+      "label": "People & Pronouns",
+      "type": "folder",
+      "colorGroup": "yellow",
+      "symbol_ref": "people",
+      "subGrid": [
+        { "label": "I", "speak": "I", "symbol_ref": "i", "colorGroup": "yellow" },
+        { "label": "me", "speak": "me", "symbol_ref": "me", "colorGroup": "yellow" },
+        { "label": "my", "speak": "my", "symbol_ref": "my", "colorGroup": "yellow" },
+        { "label": "you", "speak": "you", "symbol_ref": "you", "colorGroup": "yellow" },
+        { "label": "your", "speak": "your", "symbol_ref": "your", "colorGroup": "yellow" },
+        { "label": "we", "speak": "we", "symbol_ref": "we", "colorGroup": "yellow" },
+        { "label": "us", "speak": "us", "symbol_ref": "us", "colorGroup": "yellow" },
+        { "label": "they", "speak": "they", "symbol_ref": "they", "colorGroup": "yellow" },
+        { "label": "them", "speak": "them", "symbol_ref": "them", "colorGroup": "yellow" },
+        { "label": "he", "speak": "he", "symbol_ref": "he", "colorGroup": "yellow" },
+        { "label": "she", "speak": "she", "symbol_ref": "she", "colorGroup": "yellow" },
+        { "label": "it", "speak": "it", "symbol_ref": "it", "colorGroup": "yellow" },
+        {
+          "id": "f_family",
+          "label": "Family",
+          "type": "folder",
+          "colorGroup": "yellow",
+          "symbol_ref": "family",
+          "subGrid": [
+            { "label": "Mom", "speak": "Mom", "symbol_ref": "mom", "colorGroup": "yellow" },
+            { "label": "Dad", "speak": "Dad", "symbol_ref": "dad", "colorGroup": "yellow" },
+            { "label": "Sister", "speak": "Sister", "symbol_ref": "sister", "colorGroup": "yellow" },
+            { "label": "Brother", "speak": "Brother", "symbol_ref": "brother", "colorGroup": "yellow" },
+            { "label": "Grandma", "speak": "Grandma", "symbol_ref": "grandma", "colorGroup": "yellow" },
+            { "label": "Grandpa", "speak": "Grandpa", "symbol_ref": "grandpa", "colorGroup": "yellow" },
+            { "label": "Aunt", "speak": "Aunt", "symbol_ref": "aunt", "colorGroup": "yellow" },
+            { "label": "Uncle", "speak": "Uncle", "symbol_ref": "uncle", "colorGroup": "yellow" },
+            { "label": "Cousin", "speak": "Cousin", "symbol_ref": "cousin", "colorGroup": "yellow" },
+            { "label": "Baby", "speak": "Baby", "symbol_ref": "baby", "colorGroup": "yellow" }
+          ]
+        },
+        {
+          "id": "f_people_helpers",
+          "label": "Helpers & Friends",
+          "type": "folder",
+          "colorGroup": "yellow",
+          "symbol_ref": "helpers",
+          "subGrid": [
+            { "label": "Friend", "speak": "Friend", "symbol_ref": "friend", "colorGroup": "yellow" },
+            { "label": "Teacher", "speak": "Teacher", "symbol_ref": "teacher", "colorGroup": "yellow" },
+            { "label": "Therapist", "speak": "Therapist", "symbol_ref": "therapist", "colorGroup": "yellow" },
+            { "label": "Doctor", "speak": "Doctor", "symbol_ref": "doctor", "colorGroup": "yellow" },
+            { "label": "Nurse", "speak": "Nurse", "symbol_ref": "nurse", "colorGroup": "yellow" },
+            { "label": "Bus Driver", "speak": "Bus Driver", "symbol_ref": "busdriver", "colorGroup": "yellow" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f_verbs",
+      "label": "Actions & Verbs",
+      "type": "folder",
+      "colorGroup": "green",
+      "symbol_ref": "action",
+      "subGrid": [
+        { "label": "want", "speak": "want", "symbol_ref": "want", "colorGroup": "green" },
+        { "label": "need", "speak": "need", "symbol_ref": "need", "colorGroup": "green" },
+        { "label": "like", "speak": "like", "symbol_ref": "like", "colorGroup": "green" },
+        { "label": "go", "speak": "go", "symbol_ref": "go", "colorGroup": "green" },
+        { "label": "get", "speak": "get", "symbol_ref": "get", "colorGroup": "green" },
+        { "label": "make", "speak": "make", "symbol_ref": "make", "colorGroup": "green" },
+        { "label": "stop", "speak": "stop", "symbol_ref": "stop", "colorGroup": "green" },
+        { "label": "look", "speak": "look", "symbol_ref": "look", "colorGroup": "green" },
+        {
+          "id": "f_movement_verbs",
+          "label": "Movement Actions",
+          "type": "folder",
+          "colorGroup": "green",
+          "symbol_ref": "run",
+          "subGrid": [
+            { "label": "run", "speak": "run", "symbol_ref": "run", "colorGroup": "green" },
+            { "label": "walk", "speak": "walk", "symbol_ref": "walk", "colorGroup": "green" },
+            { "label": "jump", "speak": "jump", "symbol_ref": "jump", "colorGroup": "green" },
+            { "label": "dance", "speak": "dance", "symbol_ref": "dance", "colorGroup": "green" },
+            { "label": "climb", "speak": "climb", "symbol_ref": "climb", "colorGroup": "green" },
+            { "label": "sit", "speak": "sit down", "symbol_ref": "sit", "colorGroup": "green" },
+            { "label": "stand", "speak": "stand up", "symbol_ref": "stand", "colorGroup": "green" },
+            { "label": "swing", "speak": "swing", "symbol_ref": "swing", "colorGroup": "green" },
+            { "label": "slide", "speak": "slide", "symbol_ref": "slide", "colorGroup": "green" },
+            { "label": "spin", "speak": "spin", "symbol_ref": "spin", "colorGroup": "green" }
+          ]
+        },
+        {
+          "id": "f_daily_verbs",
+          "label": "Daily Life Verbs",
+          "type": "folder",
+          "colorGroup": "green",
+          "symbol_ref": "wash",
+          "subGrid": [
+            { "label": "eat", "speak": "eat", "symbol_ref": "eat", "colorGroup": "green" },
+            { "label": "drink", "speak": "drink", "symbol_ref": "drink", "colorGroup": "green" },
+            { "label": "sleep", "speak": "sleep", "symbol_ref": "sleep", "colorGroup": "green" },
+            { "label": "wash", "speak": "wash", "symbol_ref": "wash", "colorGroup": "green" },
+            { "label": "brush", "speak": "brush", "symbol_ref": "brush", "colorGroup": "green" },
+            { "label": "clean", "speak": "clean", "symbol_ref": "clean", "colorGroup": "green" },
+            { "label": "cook", "speak": "cook", "symbol_ref": "cook", "colorGroup": "green" },
+            { "label": "open", "speak": "open", "symbol_ref": "open", "colorGroup": "green" },
+            { "label": "close", "speak": "close", "symbol_ref": "close", "colorGroup": "green" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f_food_root",
+      "label": "Food & Eating",
+      "type": "folder",
+      "colorGroup": "orange",
+      "symbol_ref": "food",
+      "subGrid": [
+        {
+          "id": "f_meals",
+          "label": "Main Meals",
+          "type": "folder",
+          "colorGroup": "orange",
+          "symbol_ref": "meals",
+          "subGrid": [
+            { "label": "Pizza", "speak": "I want pizza.", "symbol_ref": "pizza", "colorGroup": "orange" },
+            { "label": "Burger", "speak": "I want a burger.", "symbol_ref": "burger", "colorGroup": "orange" },
+            { "label": "Pasta", "speak": "I want pasta.", "symbol_ref": "pasta", "colorGroup": "orange" },
+            { "label": "Sandwich", "speak": "I want a sandwich.", "symbol_ref": "sandwich", "colorGroup": "orange" },
+            { "label": "Chicken Nuggets", "speak": "I want chicken nuggets.", "symbol_ref": "nuggets", "colorGroup": "orange" },
+            { "label": "Rice", "speak": "I want rice.", "symbol_ref": "rice", "colorGroup": "orange" },
+            { "label": "Soup", "speak": "I want soup.", "symbol_ref": "soup", "colorGroup": "orange" },
+            { "label": "Tacos", "speak": "I want tacos.", "symbol_ref": "tacos", "colorGroup": "orange" },
+            { "label": "Hot Dog", "speak": "I want a hot dog.", "symbol_ref": "hotdog", "colorGroup": "orange" },
+            { "label": "Mac and Cheese", "speak": "I want mac and cheese.", "symbol_ref": "maccheese", "colorGroup": "orange" }
+          ]
+        },
+        {
+          "id": "f_snacks_parent",
+          "label": "Snacks & Treats",
+          "type": "folder",
+          "colorGroup": "orange",
+          "symbol_ref": "snack",
+          "subGrid": [
+            {
+              "id": "f_fruit_sub",
+              "label": "Fruits",
+              "type": "folder",
+              "colorGroup": "orange",
+              "symbol_ref": "fruit",
+              "subGrid": [
+                { "label": "Apple", "speak": "I want an apple.", "symbol_ref": "apple", "colorGroup": "orange" },
+                { "label": "Banana", "speak": "I want a banana.", "symbol_ref": "banana", "colorGroup": "orange" },
+                { "label": "Grapes", "speak": "I want grapes.", "symbol_ref": "grapes", "colorGroup": "orange" },
+                { "label": "Strawberries", "speak": "I want strawberries.", "symbol_ref": "strawberries", "colorGroup": "orange" },
+                { "label": "Orange", "speak": "I want an orange.", "symbol_ref": "orange_fruit", "colorGroup": "orange" },
+                { "label": "Watermelon", "speak": "I want watermelon.", "symbol_ref": "watermelon", "colorGroup": "orange" },
+                { "label": "Blueberries", "speak": "I want blueberries.", "symbol_ref": "blueberries", "colorGroup": "orange" },
+                { "label": "Pineapple", "speak": "I want pineapple.", "symbol_ref": "pineapple", "colorGroup": "orange" }
+              ]
+            },
+            {
+              "id": "f_salty_sub",
+              "label": "Salty Snacks",
+              "type": "folder",
+              "colorGroup": "orange",
+              "symbol_ref": "chips",
+              "subGrid": [
+                { "label": "Chips", "speak": "I want chips.", "symbol_ref": "chips", "colorGroup": "orange" },
+                { "label": "Pretzels", "speak": "I want pretzels.", "symbol_ref": "pretzels", "colorGroup": "orange" },
+                { "label": "Popcorn", "speak": "I want popcorn.", "symbol_ref": "popcorn", "colorGroup": "orange" },
+                { "label": "Crackers", "speak": "I want crackers.", "symbol_ref": "crackers", "colorGroup": "orange" },
+                { "label": "Nuts", "speak": "I want nuts.", "symbol_ref": "nuts", "colorGroup": "orange" }
+              ]
+            },
+            {
+              "id": "f_sweet_sub",
+              "label": "Sweets & Desserts",
+              "type": "folder",
+              "colorGroup": "orange",
+              "symbol_ref": "cookie",
+              "subGrid": [
+                { "label": "Cookie", "speak": "I want a cookie.", "symbol_ref": "cookie", "colorGroup": "orange" },
+                { "label": "Ice Cream", "speak": "I want ice cream.", "symbol_ref": "icecream", "colorGroup": "orange" },
+                { "label": "Chocolate", "speak": "I want chocolate.", "symbol_ref": "chocolate", "colorGroup": "orange" },
+                { "label": "Cake", "speak": "I want cake.", "symbol_ref": "cake", "colorGroup": "orange" },
+                { "label": "Candy", "speak": "I want candy.", "symbol_ref": "candy", "colorGroup": "orange" },
+                { "label": "Donut", "speak": "I want a donut.", "symbol_ref": "donut", "colorGroup": "orange" }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "f_drinks",
+          "label": "Drinks & Liquids",
+          "type": "folder",
+          "colorGroup": "orange",
+          "symbol_ref": "drinks",
+          "subGrid": [
+            { "label": "Water", "speak": "Can I have water?", "symbol_ref": "water", "colorGroup": "orange" },
+            { "label": "Milk", "speak": "Can I have milk?", "symbol_ref": "milk", "colorGroup": "orange" },
+            { "label": "Juice Box", "speak": "Can I have a juice box?", "symbol_ref": "juice", "colorGroup": "orange" },
+            { "label": "Apple Juice", "speak": "I want apple juice.", "symbol_ref": "applejuice", "colorGroup": "orange" },
+            { "label": "Smoothie", "speak": "I want a smoothie.", "symbol_ref": "smoothie", "colorGroup": "orange" },
+            { "label": "Soda", "speak": "Can I have soda?", "symbol_ref": "soda", "colorGroup": "orange" },
+            { "label": "Hot Chocolate", "speak": "I want hot chocolate.", "symbol_ref": "hotchocolate", "colorGroup": "orange" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f_leisure_activities",
+      "label": "Activities & Fun",
+      "type": "folder",
+      "colorGroup": "orange",
+      "symbol_ref": "play",
+      "subGrid": [
+        {
+          "id": "f_games_toys",
+          "label": "Toys & Games",
+          "type": "folder",
+          "colorGroup": "orange",
+          "symbol_ref": "toys",
+          "subGrid": [
+            { "label": "Blocks / Legos", "speak": "I want to play with blocks.", "symbol_ref": "legos", "colorGroup": "orange" },
+            { "label": "Tablet / iPad", "speak": "Can I have my tablet?", "symbol_ref": "tablet", "colorGroup": "orange" },
+            { "label": "Video Games", "speak": "I want to play video games.", "symbol_ref": "videogames", "colorGroup": "orange" },
+            { "label": "Board Game", "speak": "Let's play a board game.", "symbol_ref": "boardgame", "colorGroup": "orange" },
+            { "label": "Puzzle", "speak": "I want to do a puzzle.", "symbol_ref": "puzzle", "colorGroup": "orange" },
+            { "label": "Bubbles", "speak": "I want to blow bubbles.", "symbol_ref": "bubbles", "colorGroup": "orange" },
+            { "label": "Play-Doh", "speak": "I want Play-Doh.", "symbol_ref": "playdoh", "colorGroup": "orange" },
+            { "label": "Action Figures", "speak": "I want to play with figures.", "symbol_ref": "figures", "colorGroup": "orange" }
+          ]
+        },
+        {
+          "id": "f_arts_crafts",
+          "label": "Arts & Crafts",
+          "type": "folder",
+          "colorGroup": "orange",
+          "symbol_ref": "crafts",
+          "subGrid": [
+            { "label": "Coloring", "speak": "I want to color.", "symbol_ref": "crayons", "colorGroup": "orange" },
+            { "label": "Paint", "speak": "I want to paint.", "symbol_ref": "paint", "colorGroup": "orange" },
+            { "label": "Drawing", "speak": "I want to draw.", "symbol_ref": "pencil", "colorGroup": "orange" },
+            { "label": "Scissors / Cutting", "speak": "I need scissors.", "symbol_ref": "scissors", "colorGroup": "orange" },
+            { "label": "Glue", "speak": "I need glue.", "symbol_ref": "glue", "colorGroup": "orange" }
+          ]
+        },
+        {
+          "id": "f_sports_outdoors",
+          "label": "Sports & Outside",
+          "type": "folder",
+          "colorGroup": "orange",
+          "symbol_ref": "sports",
+          "subGrid": [
+            { "label": "Basketball", "speak": "Let's play basketball.", "symbol_ref": "basketball", "colorGroup": "orange" },
+            { "label": "Soccer", "speak": "Let's play soccer.", "symbol_ref": "soccer", "colorGroup": "orange" },
+            { "label": "Bike Ride", "speak": "I want to ride my bike.", "symbol_ref": "bike", "colorGroup": "orange" },
+            { "label": "Swimming", "speak": "I want to go swimming.", "symbol_ref": "swimming", "colorGroup": "orange" },
+            { "label": "Trampoline", "speak": "I want to jump on the trampoline.", "symbol_ref": "trampoline", "colorGroup": "orange" }
+          ]
+        },
+        {
+          "id": "f_media",
+          "label": "TV & Media",
+          "type": "folder",
+          "colorGroup": "orange",
+          "symbol_ref": "tv",
+          "subGrid": [
+            { "label": "YouTube", "speak": "I want to watch YouTube.", "symbol_ref": "youtube", "colorGroup": "orange" },
+            { "label": "Movie", "speak": "Can we watch a movie?", "symbol_ref": "movie", "colorGroup": "orange" },
+            { "label": "Music", "speak": "I want to listen to music.", "symbol_ref": "music", "colorGroup": "orange" },
+            { "label": "Cartoons", "speak": "I want to watch cartoons.", "symbol_ref": "cartoons", "colorGroup": "orange" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f_sensory_regulation",
+      "label": "Sensory & Needs",
+      "type": "folder",
+      "colorGroup": "blue",
+      "symbol_ref": "sensory",
+      "subGrid": [
+        { "label": "Break", "speak": "I need a break.", "symbol_ref": "break", "colorGroup": "blue" },
+        { "label": "Quiet Space", "speak": "I need somewhere quiet.", "symbol_ref": "quiet", "colorGroup": "blue" },
+        { "label": "Headphones", "speak": "I need my noise canceling headphones.", "symbol_ref": "headphones", "colorGroup": "orange" },
+        { "label": "Fidget Toy", "speak": "I need a fidget.", "symbol_ref": "fidget", "colorGroup": "orange" },
+        { "label": "Weighted Blanket", "speak": "I want my weighted blanket.", "symbol_ref": "blanket", "colorGroup": "orange" },
+        { "label": "Deep Pressure", "speak": "I need deep pressure or a squeeze.", "symbol_ref": "hug", "colorGroup": "blue" },
+        { "label": "Too Loud", "speak": "It is too loud in here.", "symbol_ref": "loud", "colorGroup": "blue" },
+        { "label": "Too Bright", "speak": "It is too bright.", "symbol_ref": "bright", "colorGroup": "blue" },
+        { "label": "Too Crowded", "speak": "It is too crowded.", "symbol_ref": "crowded", "colorGroup": "blue" }
+      ]
+    },
+    {
+      "id": "f_feelings_deep",
+      "label": "Feelings & Emotions",
+      "type": "folder",
+      "colorGroup": "blue",
+      "symbol_ref": "feelings",
+      "subGrid": [
+        { "label": "Happy", "speak": "I feel happy.", "symbol_ref": "happy", "colorGroup": "blue" },
+        { "label": "Sad", "speak": "I feel sad.", "symbol_ref": "sad", "colorGroup": "blue" },
+        { "label": "Angry", "speak": "I feel angry.", "symbol_ref": "angry", "colorGroup": "blue" },
+        { "label": "Anxious", "speak": "I am feeling anxious.", "symbol_ref": "anxious", "colorGroup": "blue" },
+        { "label": "Overwhelmed", "speak": "I am feeling overwhelmed.", "symbol_ref": "overwhelmed", "colorGroup": "blue" },
+        { "label": "Excited", "speak": "I am excited!", "symbol_ref": "excited", "colorGroup": "blue" },
+        { "label": "Frustrated", "speak": "I am frustrated.", "symbol_ref": "frustrated", "colorGroup": "blue" },
+        { "label": "Tired", "speak": "I am tired.", "symbol_ref": "tired", "colorGroup": "blue" },
+        { "label": "Calm", "speak": "I feel calm.", "symbol_ref": "calm", "colorGroup": "blue" },
+        { "label": "Bored", "speak": "I am bored.", "symbol_ref": "bored", "colorGroup": "blue" },
+        { "label": "Scared", "speak": "I am scared.", "symbol_ref": "scared", "colorGroup": "blue" },
+        { "label": "Silly", "speak": "I feel silly.", "symbol_ref": "silly", "colorGroup": "blue" }
+      ]
+    },
+    {
+      "id": "f_places_deep",
+      "label": "Places & Rooms",
+      "type": "folder",
+      "colorGroup": "orange",
+      "symbol_ref": "places",
+      "subGrid": [
+        {
+          "id": "f_home_rooms",
+          "label": "Inside Home",
+          "type": "folder",
+          "colorGroup": "orange",
+          "symbol_ref": "home",
+          "subGrid": [
+            { "label": "Bedroom", "speak": "I want to go to my bedroom.", "symbol_ref": "bedroom", "colorGroup": "orange" },
+            { "label": "Bathroom", "speak": "I need the bathroom.", "symbol_ref": "toilet", "colorGroup": "orange" },
+            { "label": "Kitchen", "speak": "Let's go to the kitchen.", "symbol_ref": "kitchen", "colorGroup": "orange" },
+            { "label": "Living Room", "speak": "I am going to the living room.", "symbol_ref": "livingroom", "colorGroup": "orange" },
+            { "label": "Yard / Garden", "speak": "I want to go in the yard.", "symbol_ref": "yard", "colorGroup": "orange" }
+          ]
+        },
+        {
+          "id": "f_community",
+          "label": "Out in Community",
+          "type": "folder",
+          "colorGroup": "orange",
+          "symbol_ref": "store",
+          "subGrid": [
+            { "label": "Store", "speak": "We are going to the store.", "symbol_ref": "store", "colorGroup": "orange" },
+            { "label": "Park", "speak": "I want to go to the park.", "symbol_ref": "park", "colorGroup": "orange" },
+            { "label": "School", "speak": "I need to go to school.", "symbol_ref": "school", "colorGroup": "orange" },
+            { "label": "Restaurant", "speak": "Let's go to a restaurant.", "symbol_ref": "restaurant", "colorGroup": "orange" },
+            { "label": "Library", "speak": "Let's go to the library.", "symbol_ref": "library", "colorGroup": "orange" },
+            { "label": "Pool", "speak": "I want to go to the pool.", "symbol_ref": "pool", "colorGroup": "orange" },
+            { "label": "Doctor / Clinic", "speak": "Going to the doctor.", "symbol_ref": "doctor", "colorGroup": "pink" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "f_descriptors",
+      "label": "Describe & Colors",
+      "type": "folder",
+      "colorGroup": "blue",
+      "symbol_ref": "describe",
+      "subGrid": [
+        {
+          "id": "f_colors",
+          "label": "Colors",
+          "type": "folder",
+          "colorGroup": "blue",
+          "symbol_ref": "colors",
+          "subGrid": [
+            { "label": "Red", "speak": "Red", "symbol_ref": "red", "colorGroup": "blue" },
+            { "label": "Blue", "speak": "Blue", "symbol_ref": "blue_color", "colorGroup": "blue" },
+            { "label": "Yellow", "speak": "Yellow", "symbol_ref": "yellow_color", "colorGroup": "blue" },
+            { "label": "Green", "speak": "Green", "symbol_ref": "green_color", "colorGroup": "blue" },
+            { "label": "Orange", "speak": "Orange", "symbol_ref": "orange_color", "colorGroup": "blue" },
+            { "label": "Purple", "speak": "Purple", "symbol_ref": "purple_color", "colorGroup": "blue" },
+            { "label": "Black", "speak": "Black", "symbol_ref": "black", "colorGroup": "blue" },
+            { "label": "White", "speak": "White", "symbol_ref": "white", "colorGroup": "blue" }
+          ]
+        },
+        { "label": "Big", "speak": "big", "symbol_ref": "big", "colorGroup": "blue" },
+        { "label": "Little", "speak": "little", "symbol_ref": "little", "colorGroup": "blue" },
+        { "label": "Hot", "speak": "hot", "symbol_ref": "hot", "colorGroup": "blue" },
+        { "label": "Cold", "speak": "cold", "symbol_ref": "cold", "colorGroup": "blue" },
+        { "label": "Fast", "speak": "fast", "symbol_ref": "fast", "colorGroup": "blue" },
+        { "label": "Slow", "speak": "slow", "symbol_ref": "slow", "colorGroup": "blue" },
+        { "label": "Good", "speak": "good", "symbol_ref": "good", "colorGroup": "blue" },
+        { "label": "Bad", "speak": "bad", "symbol_ref": "bad", "colorGroup": "blue" }
+      ]
+    },
+    {
+      "id": "f_questions",
+      "label": "Questions",
+      "type": "folder",
+      "colorGroup": "purple",
+      "symbol_ref": "question",
+      "subGrid": [
+        { "label": "What?", "speak": "What?", "symbol_ref": "what", "colorGroup": "purple" },
+        { "label": "Where?", "speak": "Where?", "symbol_ref": "where", "colorGroup": "purple" },
+        { "label": "When?", "speak": "When?", "symbol_ref": "when", "colorGroup": "purple" },
+        { "label": "Who?", "speak": "Who?", "symbol_ref": "who", "colorGroup": "purple" },
+        { "label": "Why?", "speak": "Why?", "symbol_ref": "why", "colorGroup": "purple" },
+        { "label": "How?", "speak": "How?", "symbol_ref": "how", "colorGroup": "purple" }
+      ]
+    },
+    { "id": "t_yes", "label": "Yes", "speak": "Yes", "colorGroup": "pink", "symbol_ref": "yes" },
+    { "id": "t_no", "label": "No", "speak": "No", "colorGroup": "pink", "symbol_ref": "no" },
+    { "id": "t_help", "label": "Help", "speak": "I need help please.", "colorGroup": "pink", "symbol_ref": "help" },
+    { "id": "t_stop", "label": "Stop", "speak": "Please stop.", "colorGroup": "green", "symbol_ref": "stop" },
+    { "id": "t_please", "label": "Please", "speak": "Please", "colorGroup": "pink", "symbol_ref": "please" },
+    { "id": "t_thankyou", "label": "Thank You", "speak": "Thank you", "colorGroup": "pink", "symbol_ref": "thankyou" }
+  ]
+}

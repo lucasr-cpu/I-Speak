@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>I-Speak AAC</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <meta name="theme-color" content="#cbd5e1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    html, body {
+      background-color: #94a3b8;
+      color: #000000;
+      height: 100%;
+      width: 100vw;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      width: 100vw;
+      padding: max(3px, env(safe-area-inset-top)) max(3px, env(safe-area-inset-right)) max(3px, env(safe-area-inset-bottom)) max(3px, env(safe-area-inset-left));
+      gap: 3px;
+    }
+
+    /* TOP BAR & SPEECH DISPLAY */
+    .top-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex-shrink: 0;
+      background: #e2e8f0;
+      padding: 4px;
+      border-radius: 4px;
+      border: 2px solid #334155;
+    }
+
+    @media (min-width: 600px) {
+      .top-bar {
+        flex-direction: row;
+        align-items: center;
+        height: 54px;
+      }
+    }
+
+    .header-row-top {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+      height: 38px;
+    }
+
+    .brand-container {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .brand-logo {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      font-weight: 900;
+      font-size: 13px;
+      color: #0284c7;
+      text-transform: uppercase;
+      letter-spacing: -0.3px;
+    }
+
+    .speech-window {
+      flex: 1;
+      height: 100%;
+      background: #ffffff;
+      border: 2px solid #000000;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      padding: 2px 4px;
+      gap: 4px;
+      overflow-x: auto;
+      cursor: pointer;
+    }
+
+    .token-chip {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #ffffff;
+      border: 1px solid #475569;
+      border-radius: 2px;
+      padding: 1px 4px;
+      height: 90%;
+      flex-shrink: 0;
+    }
+
+    .token-chip img {
+      height: 90%;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .token-chip .fallback-chip-text {
+      font-size: 11px;
+      font-weight: 900;
+      color: #0284c7;
+      text-transform: uppercase;
+    }
+
+    .token-chip span {
+      font-size: 11px;
+      font-weight: bold;
+      color: #000000;
+    }
+
+    .controls-row {
+      display: flex;
+      gap: 3px;
+      width: 100%;
+      height: 32px;
+    }
+
+    @media (min-width: 600px) {
+      .controls-row {
+        width: auto;
+        height: 100%;
+      }
+    }
+
+    .btn-bar {
+      flex: 1;
+      height: 100%;
+      padding: 0 4px;
+      font-size: 10px;
+      font-weight: bold;
+      border-radius: 2px;
+      border: 1.5px solid #000000;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      flex-shrink: 0;
+      text-transform: uppercase;
+    }
+
+    @media (min-width: 600px) {
+      .btn-bar {
+        flex: none;
+        padding: 0 8px;
+        font-size: 11px;
+      }
+    }
+
+    .btn-speak { background: #22c55e; }
+    .btn-clear { background: #ef4444; }
+    .btn-util { background: #0284c7; }
+
+    .voice-select {
+      flex: 1.5;
+      height: 100%;
+      max-width: 110px;
+      background: #ffffff;
+      color: #000000;
+      border: 1.5px solid #000000;
+      border-radius: 2px;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 0 2px;
+      outline: none;
+    }
+
+    /* GRID CONTAINER */
+    .grid-container {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .grid {
+      display: grid;
+      gap: 2px;
+      width: 100%;
+      height: 100%;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(6, 1fr);
+    }
+
+    @media (min-width: 480px) {
+      .grid {
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+      }
+    }
+
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .grid {
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+      }
+    }
+
+    /* CARD STYLING */
+    .card {
+      background: #ffffff;
+      border: 2px solid #1e293b;
+      border-radius: 3px;
+      padding: 2px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      position: relative;
+      user-select: none;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .card:active {
+      filter: brightness(0.85);
+      border-color: #000000;
+    }
+
+    .card-img-wrapper {
+      width: 100%;
+      height: 70%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border: 1px solid #64748b;
+      border-radius: 2px;
+      overflow: hidden;
+      padding: 1px;
+    }
+
+    .card img {
+      max-width: 98%;
+      max-height: 98%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+
+    .fallback-card-text {
+      font-size: clamp(10px, 2.5vw, 20px);
+      font-weight: 900;
+      color: #0f172a;
+      text-transform: uppercase;
+      text-align: center;
+      word-break: break-word;
+      line-height: 1;
+    }
+
+    .card span.card-label {
+      font-size: clamp(8px, 1.8vw, 13px);
+      font-weight: bold;
+      color: #000000;
+      text-align: center;
+      line-height: 1;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-bottom: 1px;
+    }
+
+    .card.cg-yellow { background-color: #fde047; }
+    .card.cg-green  { background-color: #4ade80; }
+    .card.cg-blue   { background-color: #38bdf8; }
+    .card.cg-orange { background-color: #fb923c; }
+    .card.cg-pink   { background-color: #f472b6; }
+    .card.cg-purple { background-color: #c084fc; }
+    .card.cg-white  { background-color: #ffffff; }
+
+    .card.is-folder::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 12px 12px 0;
+      border-color: transparent #000000 transparent transparent;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.98);
+      z-index: 10000;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+
+    #bigTextOverlay {
+      color: #000000;
+      font-size: clamp(28px, 8vw, 80px);
+      font-weight: 900;
+      text-align: center;
+      word-break: break-word;
+      padding: 10px;
+    }
+
+    .keyboard-container {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .keyboard-input {
+      width: 100%;
+      height: 48px;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 6px;
+      border-radius: 4px;
+      border: 2px solid #000000;
+      outline: none;
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .keyboard-row {
+      display: flex;
+      justify-content: center;
+      gap: 3px;
+    }
+
+    .key-btn {
+      flex: 1;
+      height: 44px;
+      background: #e2e8f0;
+      color: #000000;
+      font-size: 15px;
+      font-weight: bold;
+      border: 1.5px solid #000000;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    .key-btn:active { background: #0284c7; color: #ffffff; }
+
+    #splash {
+      position: fixed;
+      inset: 0;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      transition: opacity 0.2s ease;
+    }
+
+    .splash-title {
+      color: #0284c7;
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .splash-bar-bg {
+      width: 160px;
+      height: 6px;
+      background: #cbd5e1;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .splash-bar-fill {
+      width: 0%;
+      height: 100%;
+      background: #22c55e;
+      transition: width 0.2s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="splash">
+    <div class="splash-title">I-SPEAK AAC</div>
+    <div class="splash-bar-bg">
+      <div id="loadBar" class="splash-bar-fill"></div>
+    </div>
+  </div>
+
+  <header class="top-bar">
+    <div class="header-row-top">
+      <div class="brand-container">
+        <img id="appLogo" src="icons/logo.png" alt="" class="brand-logo" onerror="this.style.display='none'" />
+        <div class="brand-title">I-Speak</div>
+      </div>
+      <button class="btn-bar btn-util" id="backBtn" onclick="goHome()" style="display: none; height: 100%;">‹ HOME</button>
+      <div class="speech-window" id="speechTokens" onclick="speakPhrase()"></div>
+    </div>
+
+    <div class="controls-row">
+      <select class="voice-select" id="voiceSelect" onchange="changeVoice()"></select>
+      <button class="btn-bar btn-util" onclick="openKeyboard()">KEYBOARD</button>
+      <button class="btn-bar btn-util" onclick="showBigText()">BIG TEXT</button>
+      <button class="btn-bar btn-speak" onclick="speakPhrase()">SPEAK</button>
+      <button class="btn-bar btn-clear" onclick="clearText()">CLEAR</button>
+    </div>
+  </header>
+
+  <main class="grid-container">
+    <div class="grid" id="grid"></div>
+  </main>
+
+  <div class="modal" id="bigTextModal" onclick="closeBigText()">
+    <div id="bigTextOverlay">...</div>
+  </div>
+
+  <div class="modal" id="keyboardModal">
+    <div class="keyboard-container">
+      <input type="text" class="keyboard-input" id="kbInput" placeholder="Type message..." />
+      <div class="keyboard-row">
+        <button class="key-btn" onclick="typeKey('Q')">Q</button>
+        <button class="key-btn" onclick="typeKey('W')">W</button>
+        <button class="key-btn" onclick="typeKey('E')">E</button>
+        <button class="key-btn" onclick="typeKey('R')">R</button>
+        <button class="key-btn" onclick="typeKey('T')">T</button>
+        <button class="key-btn" onclick="typeKey('Y')">Y</button>
+        <button class="key-btn" onclick="typeKey('U')">U</button>
+        <button class="key-btn" onclick="typeKey('I')">I</button>
+        <button class="key-btn" onclick="typeKey('O')">O</button>
+        <button class="key-btn" onclick="typeKey('P')">P</button>
+      </div>
+      <div class="keyboard-row">
+        <button class="key-btn" onclick="typeKey('A')">A</button>
+        <button class="key-btn" onclick="typeKey('S')">S</button>
+        <button class="key-btn" onclick="typeKey('D')">D</button>
+        <button class="key-btn" onclick="typeKey('F')">F</button>
+        <button class="key-btn" onclick="typeKey('G')">G</button>
+        <button class="key-btn" onclick="typeKey('H')">H</button>
+        <button class="key-btn" onclick="typeKey('J')">J</button>
+        <button class="key-btn" onclick="typeKey('K')">K</button>
+        <button class="key-btn" onclick="typeKey('L')">L</button>
+      </div>
+      <div class="keyboard-row">
+        <button class="key-btn" onclick="typeKey('Z')">Z</button>
+        <button class="key-btn" onclick="typeKey('X')">X</button>
+        <button class="key-btn" onclick="typeKey('C')">C</button>
+        <button class="key-btn" onclick="typeKey('V')">V</button>
+        <button class="key-btn" onclick="typeKey('B')">B</button>
+        <button class="key-btn" onclick="typeKey('N')">N</button>
+        <button class="key-btn" onclick="typeKey('M')">M</button>
+        <button class="key-btn" onclick="typeKey(' ')">SPACE</button>
+        <button class="key-btn" onclick="typeKey('BACK')">⌫</button>
+      </div>
+      <div class="keyboard-row" style="margin-top: 6px;">
+        <button class="key-btn" style="background:#22c55e; color:#ffffff;" onclick="speakKeyboardInput()">SPEAK</button>
+        <button class="key-btn" style="background:#ef4444; color:#ffffff;" onclick="closeKeyboard()">CLOSE</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let symbolLibrary = {};
+    let boardConfig = {};
+    let selectedTokens = [];
+    let availableVoices = [];
+    let selectedVoice = null;
+    let lastSpokenText = "";
+    let audioUnlocked = false;
+
+    const grid = document.getElementById('grid');
+    const speechTokens = document.getElementById('speechTokens');
+    const backBtn = document.getElementById('backBtn');
+    const voiceSelect = document.getElementById('voiceSelect');
+
+    const updateProgress = (percent) => {
+      document.getElementById('loadBar').style.width = percent + '%';
+    };
+
+    const expandedFallbackTiles = [
+      { label: "I", colorGroup: "yellow", symbol_ref: "i" },
+      { label: "me", colorGroup: "yellow", symbol_ref: "me" },
+      { label: "you", colorGroup: "yellow", symbol_ref: "you" },
+      { label: "my", colorGroup: "yellow", symbol_ref: "my" },
+      { label: "we", colorGroup: "yellow", symbol_ref: "we" },
+      { label: "they", colorGroup: "yellow", symbol_ref: "they" },
+      { label: "want", colorGroup: "green", symbol_ref: "want" },
+      { label: "go", colorGroup: "green", symbol_ref: "go" },
+      { label: "stop", colorGroup: "green", symbol_ref: "stop" },
+      { label: "like", colorGroup: "green", symbol_ref: "like" },
+      { label: "get", colorGroup: "green", symbol_ref: "get" },
+      { label: "need", colorGroup: "green", symbol_ref: "need" },
+      { label: "more", colorGroup: "blue", symbol_ref: "more" },
+      { label: "good", colorGroup: "blue", symbol_ref: "good" },
+      { label: "help", colorGroup: "blue", symbol_ref: "help" },
+      { label: "food", colorGroup: "orange", symbol_ref: "food", type: "folder" },
+      { label: "feelings", colorGroup: "blue", symbol_ref: "feelings", type: "folder" },
+      { label: "yes", colorGroup: "pink", symbol_ref: "yes" },
+      { label: "no", colorGroup: "pink", symbol_ref: "no" },
+      { label: "what", colorGroup: "purple", symbol_ref: "what" }
+    ];
+
+    async function initApp() {
+      try {
+        updateProgress(30);
+        const libRes = await fetch('symbols-library.json').catch(() => null);
+        if (libRes && libRes.ok) symbolLibrary = await libRes.json();
+
+        updateProgress(60);
+        const boardRes = await fetch('board.json').catch(() => null);
+        if (boardRes && boardRes.ok) boardConfig = await boardRes.json();
+
+        const tilesToRender = (boardConfig && boardConfig.tiles) ? boardConfig.tiles : expandedFallbackTiles;
+        renderBoard(tilesToRender, false);
+
+        updateProgress(85);
+        populateVoices();
+      } catch (err) {
+        console.error("Initialization warning:", err);
+        renderBoard(expandedFallbackTiles, false);
+        populateVoices();
+      }
+    }
+
+    // iOS Audio Engine Unlock
+    function unlockAudio() {
+      if (audioUnlocked) return;
+      window.speechSynthesis.cancel();
+      const emptyUtterance = new SpeechSynthesisUtterance("");
+      emptyUtterance.volume = 0;
+      window.speechSynthesis.speak(emptyUtterance);
+      audioUnlocked = true;
+    }
+
+    document.addEventListener('touchstart', unlockAudio, { once: true });
+    document.addEventListener('click', unlockAudio, { once: true });
+
+    function getSymbolPath(ref) {
+      if (symbolLibrary && symbolLibrary[ref]) {
+        return typeof symbolLibrary[ref] === 'string' ? symbolLibrary[ref] : symbolLibrary[ref].path;
+      }
+      return null;
+    }
+
+    function handleMissingImage(imgElement, labelText) {
+      const parent = imgElement.parentElement;
+      if (parent) {
+        parent.innerHTML = `<span class="fallback-card-text">${labelText}</span>`;
+      }
+    }
+
+    function handleMissingChipImage(imgElement, labelText) {
+      const parent = imgElement.parentElement;
+      if (parent) {
+        const fallbackSpan = document.createElement('span');
+        fallbackSpan.className = 'fallback-chip-text';
+        fallbackSpan.textContent = labelText;
+        parent.insertBefore(fallbackSpan, imgElement);
+        imgElement.remove();
+      }
+    }
+
+    function renderBoard(tiles, isSubFolder = false) {
+      grid.innerHTML = '';
+      backBtn.style.display = isSubFolder ? 'flex' : 'none';
+
+      tiles.forEach(tile => {
+        const card = document.createElement('div');
+        const colorGroup = tile.colorGroup || 'yellow';
+        const isFolder = tile.type === 'folder';
+
+        card.className = `card cg-${colorGroup} ${isFolder ? 'is-folder' : ''}`;
+        const imgPath = getSymbolPath(tile.symbol_ref);
+
+        if (imgPath) {
+          card.innerHTML = `
+            <div class="card-img-wrapper">
+              <img src="${imgPath}" alt="${tile.label}" onerror="handleMissingImage(this, '${tile.label}')" />
+            </div>
+            <span class="card-label">${tile.label}</span>
+          `;
+        } else {
+          card.innerHTML = `
+            <div class="card-img-wrapper">
+              <span class="fallback-card-text">${tile.label}</span>
+            </div>
+            <span class="card-label">${tile.label}</span>
+          `;
+        }
+
+        card.onclick = () => {
+          triggerHaptic();
+          if (isFolder && tile.subGrid) {
+            renderBoard(tile.subGrid, true);
+          } else {
+            addToken(tile.label, imgPath, tile.speak || tile.label);
+          }
+        };
+
+        grid.appendChild(card);
+      });
+    }
+
+    function goHome() {
+      const tilesToRender = (boardConfig && boardConfig.tiles) ? boardConfig.tiles : expandedFallbackTiles;
+      renderBoard(tilesToRender, false);
+    }
+
+    function addToken(label, imgPath, speakText) {
+      selectedTokens.push({ label, imgPath, speakText });
+      renderTokens();
+      speakWord(speakText);
+    }
+
+    function renderTokens() {
+      speechTokens.innerHTML = '';
+      selectedTokens.forEach(token => {
+        const chip = document.createElement('div');
+        chip.className = 'token-chip';
+        if (token.imgPath) {
+          chip.innerHTML = `<img src="${token.imgPath}" onerror="handleMissingChipImage(this, '${token.label}')" /><span>${token.label}</span>`;
+        } else {
+          chip.innerHTML = `<span class="fallback-chip-text">${token.label}</span><span>${token.label}</span>`;
+        }
+        speechTokens.appendChild(chip);
+      });
+      speechTokens.scrollLeft = speechTokens.scrollWidth;
+    }
+
+    function triggerHaptic() {
+      if ('vibrate' in navigator) navigator.vibrate(15);
+    }
+
+    function speakWord(text) {
+      if (!text) return;
+      lastSpokenText = text;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      if (selectedVoice) utterance.voice = selectedVoice;
+      utterance.rate = 0.95;
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function speakPhrase() {
+      if (selectedTokens.length === 0) return;
+      const fullText = selectedTokens.map(t => t.speakText).join(' ');
+      speakWord(fullText);
+    }
+
+    function clearText() {
+      triggerHaptic();
+      selectedTokens = [];
+      renderTokens();
+    }
+
+    function populateVoices() {
+      availableVoices = window.speechSynthesis.getVoices();
+      voiceSelect.innerHTML = '';
+
+      if (availableVoices.length > 0) {
+        availableVoices.forEach((voice, index) => {
+          const option = document.createElement('option');
+          option.value = index;
+          
+          let displayName = voice.name;
+          if (voice.identifier && voice.identifier.includes('PersonalVoice')) {
+            displayName = `⭐ Personal Voice (${voice.lang})`;
+          } else if (voice.name.includes('Personal')) {
+            displayName = `⭐ ${voice.name}`;
+          }
+          
+          option.textContent = displayName;
+          voiceSelect.appendChild(option);
+        });
+
+        // Priority matching for Apple Personal Voice and Enhanced Neural voices
+        const preferredVoice = availableVoices.find(v => 
+          (v.identifier && v.identifier.includes('PersonalVoice')) || 
+          v.name.includes('Personal Voice') || 
+          v.name.includes('Personal') ||
+          v.name.includes('Enhanced') || 
+          v.name.includes('Natural')
+        );
+        
+        selectedVoice = preferredVoice || availableVoices[0];
+        voiceSelect.value = availableVoices.indexOf(selectedVoice);
+
+        updateProgress(100);
+        setTimeout(() => {
+          const splash = document.getElementById('splash');
+          if (splash) {
+            splash.style.opacity = '0';
+            setTimeout(() => splash.remove(), 200);
+          }
+        }, 100);
+      } else {
+        setTimeout(populateVoices, 150);
+      }
+    }
+
+    function changeVoice() {
+      const idx = voiceSelect.value;
+      selectedVoice = availableVoices[idx];
+    }
+
+    function showBigText() {
+      const currentText = selectedTokens.length > 0 
+        ? selectedTokens.map(t => t.label).join(' ') 
+        : (lastSpokenText || "READY");
+      document.getElementById('bigTextOverlay').innerText = currentText.toUpperCase();
+      document.getElementById('bigTextModal').style.display = 'flex';
+    }
+
+    function closeBigText() {
+      document.getElementById('bigTextModal').style.display = 'none';
+    }
+
+    function openKeyboard() {
+      document.getElementById('keyboardModal').style.display = 'flex';
+      document.getElementById('kbInput').focus();
+    }
+
+    function closeKeyboard() {
+      document.getElementById('keyboardModal').style.display = 'none';
+    }
+
+    function typeKey(char) {
+      const input = document.getElementById('kbInput');
+      if (char === 'BACK') {
+        input.value = input.value.slice(0, -1);
+      } else {
+        input.value += char;
+      }
+    }
+
+    function speakKeyboardInput() {
+      const text = document.getElementById('kbInput').value;
+      if (text) {
+        speakWord(text);
+        addToken(text, null, text);
+        closeKeyboard();
+        document.getElementById('kbInput').value = '';
+      }
+    }
+
+    if (typeof window.speechSynthesis !== 'undefined') {
+      window.speechSynthesis.onvoiceschanged = populateVoices;
+    }
+
+    window.onload = initApp;
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+  </script>
+</body>
+</html>

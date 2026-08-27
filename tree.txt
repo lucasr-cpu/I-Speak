@@ -1,0 +1,9 @@
+i-speak-aac/
+├── download_and_index.py    # Python script: downloads & indexes ~14k ARASAAC symbols
+├── symbols-library.json     # Auto-generated symbol dictionary mapping keywords to local paths
+├── board.json               # Decoupled grid layout configuration (Proloquo color-coded)
+├── index.html               # Proloquo-styled single-file PWA frontend
+├── manifest.json            # iOS/Android PWA manifest
+├── sw.js                    # Service Worker caching index, boards, and assets offline
+├── icons/                   # App launcher icons (apple-touch-icon.png, icon-192.png, etc.)
+└── symbols/                 # Downloaded local PNG pictograms (~350–500 MB)
