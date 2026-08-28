@@ -1,8 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
   <title>I-Speak AAC</title>
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -12,7 +14,7 @@
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
-  
+
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="theme-color" content="#f1f5f9">
@@ -23,358 +25,1093 @@
       --bs-body-color: #0f172a;
     }
 
-    /* Native App Feel: Disable browser interactions & scrolling */
-    html, body {
-      height: 100dvh;
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
       width: 100%;
+      height: 100%;
       margin: 0;
       padding: 0;
       overflow: hidden;
-      position: fixed;
-      touch-action: none;
+      background-color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       -webkit-touch-callout: none;
       -webkit-user-select: none;
       user-select: none;
-      background-color: #f1f5f9;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
     body {
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
+
       padding-top: env(safe-area-inset-top);
       padding-bottom: env(safe-area-inset-bottom);
       padding-left: env(safe-area-inset-left);
       padding-right: env(safe-area-inset-right);
+
+      touch-action: manipulation;
     }
 
-    /* 1. LAMP Top Sentence Bar */
+    /* =========================================================
+       1. LAMP TOP SENTENCE BAR
+       ========================================================= */
+
     .lamp-sentence-bar {
       height: 62px;
+      min-height: 62px;
+
       background: linear-gradient(#ffffff, #f4f6f9);
+
       display: flex;
       align-items: center;
+
       border-bottom: 1px solid #d6dbe3;
       padding: 4px 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
       z-index: 2;
     }
+
     .lamp-tokens-container {
       flex: 1;
+      min-width: 0;
       height: 100%;
+
       display: flex;
       align-items: center;
+
       gap: 6px;
+
       overflow-x: auto;
+      overflow-y: hidden;
+
       scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+
+      touch-action: pan-x;
     }
+
     .lamp-token {
       height: 52px;
       min-width: 40px;
+
       background: #ffffff;
+
       border: 1px solid #cbd5e1;
       border-radius: 6px;
+
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+
       padding: 2px 4px;
+
       flex-shrink: 0;
     }
+
     .lamp-token span {
       order: 2;
+
       font-size: 10px;
       font-weight: 800;
+
       color: #000000;
+
       line-height: 1;
     }
+
     .lamp-token img {
       order: 1;
+
       height: 30px;
       width: auto;
+
       object-fit: contain;
     }
+
     .lamp-delete-btn {
       width: 44px;
       height: 44px;
+
+      flex: 0 0 44px;
+
       background: #dc2626;
       color: #ffffff;
+
       border-radius: 50%;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       font-size: 20px;
       font-weight: 900;
+
       cursor: pointer;
+
       border: 1px solid #b91c1c;
+
       margin-left: 4px;
-    }
-    .lamp-delete-btn:active {
-      background: #991b1b;
+
+      touch-action: manipulation;
     }
 
-    /* 2. Sub-Header Context Bar */
+    .lamp-delete-btn:active {
+      background: #991b1b;
+      transform: scale(0.94);
+    }
+
+
+    /* =========================================================
+       2. SUB-HEADER CONTEXT BAR
+       ========================================================= */
+
     .lamp-context-bar {
       height: 26px;
+      min-height: 26px;
+
       background: linear-gradient(#e2e8f0, #d8dee8);
+
       color: #1d4ed8;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
+
       padding: 0 12px;
+
       font-size: 11px;
       font-weight: 700;
+
       letter-spacing: 0.5px;
+
       border-bottom: 1px solid #c7d0dc;
+
+      white-space: nowrap;
+      overflow: hidden;
     }
 
-    /* 3. LAMP 84-Location Grid Layout (12x7) */
+    .lamp-context-bar span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+
+    /* =========================================================
+       3. AAC GRID
+       ========================================================= */
+
     .lamp-grid-wrapper {
       flex: 1;
       min-height: 0;
+      min-width: 0;
+
       background: #dbe2ea;
+
       padding: 3px;
+
+      overflow: hidden;
     }
+
     .aac-grid {
       display: grid;
+
       gap: 3px;
+
       height: 100%;
       width: 100%;
-      grid-template-columns: repeat(12, 1fr);
-      grid-template-rows: repeat(7, 1fr);
+
+      /*
+       * Default:
+       * 12 columns × 7 rows
+       */
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-rows: repeat(7, minmax(0, 1fr));
+
+      min-width: 0;
+      min-height: 0;
     }
+
     .aac-grid.fade-in {
       animation: gridFadeIn 0.16s ease-out;
     }
+
     @keyframes gridFadeIn {
-      from { opacity: 0; transform: scale(0.99); }
-      to { opacity: 1; transform: scale(1); }
+      from {
+        opacity: 0;
+        transform: scale(0.99);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
-    /* LAMP Tile Design */
+
+    /* =========================================================
+       LAMP TILE DESIGN
+       ========================================================= */
+
     .aac-card {
       background: #ffffff;
+
       border: 2px solid #1a1a1a;
       border-radius: 8px;
+
       display: flex;
       flex-direction: column;
+
       align-items: center;
       justify-content: flex-start;
+
       padding: 2px;
+
       cursor: pointer;
       position: relative;
+
       overflow: hidden;
+
       height: 100%;
       width: 100%;
-      box-shadow: 0 1px 0 rgba(0,0,0,0.25);
+
+      min-width: 0;
+      min-height: 0;
+
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+
+      touch-action: manipulation;
+
+      -webkit-tap-highlight-color: transparent;
     }
+
     .aac-card:active {
       transform: scale(0.94);
       opacity: 0.85;
       box-shadow: none;
     }
-    /* Real LAMP order: picture takes up most of the button, word sits in a strip at the bottom */
+
     .card-label {
       order: 2;
+
       font-family: 'Poppins', -apple-system, sans-serif;
+
       font-size: clamp(8px, 0.9vw, 11px);
       font-weight: 700;
+
       color: #000000;
+
       text-align: center;
       line-height: 1.1;
+
       width: 100%;
+
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+
       margin-top: 1px;
       padding-top: 1px;
-      border-top: 1px solid rgba(0,0,0,0.15);
+
+      border-top: 1px solid rgba(0, 0, 0, 0.15);
+
+      flex-shrink: 0;
     }
+
     .aac-card img {
       order: 1;
+
       flex: 1;
+
       min-height: 0;
+      min-width: 0;
+
       max-height: 100%;
       max-width: 95%;
+
+      width: auto;
+      height: auto;
+
       object-fit: contain;
+
       pointer-events: none;
     }
+
     .aac-card.no-img {
       justify-content: center;
     }
+
     .aac-card.no-img .card-label {
       border-top: none;
+
       font-size: clamp(9px, 1.1vw, 13px);
     }
 
-    /* Standard Fitzgerald Key Color Coding */
-    .cg-yellow { background-color: #fef08a; } /* Pronouns */
-    .cg-green  { background-color: #bbf7d0; } /* Verbs */
-    .cg-orange { background-color: #fed7aa; } /* Nouns */
-    .cg-pink   { background-color: #fbcfe8; } /* Social/Adjectives */
-    .cg-blue   { background-color: #bae6fd; } /* Prepositions */
-    .cg-white  { background-color: #ffffff; }
+
+    /* =========================================================
+       FITZGERALD KEY COLOUR CODING
+       ========================================================= */
+
+    .cg-yellow {
+      background-color: #fef08a;
+    }
+
+    .cg-green {
+      background-color: #bbf7d0;
+    }
+
+    .cg-orange {
+      background-color: #fed7aa;
+    }
+
+    .cg-pink {
+      background-color: #fbcfe8;
+    }
+
+    .cg-blue {
+      background-color: #bae6fd;
+    }
+
+    .cg-white {
+      background-color: #ffffff;
+    }
+
+
+    /* =========================================================
+       FOLDER BUTTON
+       ========================================================= */
 
     .is-folder {
       border-color: #1e3a8a;
     }
+
     .is-folder::after {
       content: '';
+
       position: absolute;
+
       top: 0;
       right: 0;
+
       width: 0;
       height: 0;
+
       border-style: solid;
+
       border-width: 0 11px 11px 0;
-      border-color: transparent #1e3a8a transparent transparent;
+
+      border-color:
+        transparent
+        #1e3a8a
+        transparent
+        transparent;
     }
 
-    /* 4. Native Bottom Dock */
+
+    /* =========================================================
+       4. NATIVE BOTTOM DOCK
+       ========================================================= */
+
     .lamp-dock {
       height: 54px;
+      min-height: 54px;
+
       background: linear-gradient(#f8fafc, #e7ebf1);
+
       display: flex;
       align-items: center;
       justify-content: space-around;
+
       border-top: 1px solid #cbd5e1;
+
       padding: 2px 4px;
+
+      flex-shrink: 0;
     }
+
     .dock-btn {
       background: transparent;
       border: none;
+
       color: #475569;
+
       display: flex;
       flex-direction: column;
+
       align-items: center;
       justify-content: center;
+
       gap: 2px;
+
       font-size: 10px;
       font-weight: 700;
+
       font-family: 'Poppins', -apple-system, sans-serif;
+
       cursor: pointer;
+
       padding: 6px 14px;
+
       border-radius: 14px;
-      transition: background 0.15s ease, color 0.15s ease;
+
+      transition:
+        background 0.15s ease,
+        color 0.15s ease;
+
+      touch-action: manipulation;
+
+      -webkit-tap-highlight-color: transparent;
     }
+
     .dock-btn:active {
       background: rgba(29, 78, 216, 0.12);
       color: #1d4ed8;
+
+      transform: scale(0.95);
     }
+
     .dock-btn:hover {
       color: #1d4ed8;
     }
+
     .dock-btn svg {
       width: 20px;
       height: 20px;
+
       fill: currentColor;
+
+      flex-shrink: 0;
     }
+
+
+    /* =========================================================
+       SPLASH
+       ========================================================= */
 
     #splash {
       position: fixed;
+
       inset: 0;
+
       background: #f1f5f9;
+
       z-index: 99999;
+
       display: flex;
+
       flex-direction: column;
+
       align-items: center;
       justify-content: center;
+
+      padding:
+        env(safe-area-inset-top)
+        env(safe-area-inset-right)
+        env(safe-area-inset-bottom)
+        env(safe-area-inset-left);
+    }
+
+
+    /* =========================================================
+       TABLETS
+       ========================================================= */
+
+    @media (max-width: 900px) {
+
+      .lamp-sentence-bar {
+        height: 60px;
+        min-height: 60px;
+      }
+
+      .lamp-token {
+        height: 50px;
+        min-width: 40px;
+      }
+
+      .lamp-context-bar {
+        height: 25px;
+        min-height: 25px;
+
+        font-size: 10px;
+      }
+
+      .lamp-dock {
+        height: 56px;
+        min-height: 56px;
+      }
+
+      .dock-btn {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    }
+
+
+    /* =========================================================
+       MOBILE LANDSCAPE
+       ========================================================= */
+
+    @media (max-width: 700px) and (orientation: landscape) {
+
+      .lamp-sentence-bar {
+        height: 52px;
+        min-height: 52px;
+
+        padding: 3px 6px;
+      }
+
+      .lamp-token {
+        height: 44px;
+        min-width: 36px;
+      }
+
+      .lamp-token img {
+        height: 25px;
+      }
+
+      .lamp-token span {
+        font-size: 9px;
+      }
+
+      .lamp-delete-btn {
+        width: 40px;
+        height: 40px;
+        flex-basis: 40px;
+      }
+
+      .lamp-context-bar {
+        height: 22px;
+        min-height: 22px;
+
+        padding: 0 8px;
+
+        font-size: 9px;
+      }
+
+      .lamp-grid-wrapper {
+        padding: 2px;
+      }
+
+      .aac-grid {
+        gap: 2px;
+
+        /*
+         * Keep the full dense AAC layout in landscape.
+         */
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        grid-template-rows: repeat(7, minmax(0, 1fr));
+      }
+
+      .aac-card {
+        border-width: 1px;
+        border-radius: 5px;
+        padding: 1px;
+      }
+
+      .card-label {
+        font-size: clamp(6px, 1.5vw, 9px);
+      }
+
+      .aac-card.no-img .card-label {
+        font-size: clamp(7px, 1.7vw, 10px);
+      }
+
+      .lamp-dock {
+        height: 48px;
+        min-height: 48px;
+
+        padding: 1px 2px;
+      }
+
+      .dock-btn {
+        padding: 3px 8px;
+
+        font-size: 8px;
+
+        gap: 1px;
+      }
+
+      .dock-btn svg {
+        width: 17px;
+        height: 17px;
+      }
+    }
+
+
+    /* =========================================================
+       MOBILE PORTRAIT
+       ========================================================= */
+
+    @media (max-width: 700px) and (orientation: portrait) {
+
+      .lamp-sentence-bar {
+        height: 60px;
+        min-height: 60px;
+
+        padding: 4px 6px;
+      }
+
+      .lamp-token {
+        height: 50px;
+        min-width: 38px;
+
+        padding-left: 3px;
+        padding-right: 3px;
+      }
+
+      .lamp-token img {
+        height: 27px;
+      }
+
+      .lamp-token span {
+        font-size: 9px;
+      }
+
+      .lamp-delete-btn {
+        width: 42px;
+        height: 42px;
+        flex-basis: 42px;
+      }
+
+      .lamp-context-bar {
+        height: 24px;
+        min-height: 24px;
+
+        padding: 0 8px;
+
+        font-size: 9px;
+      }
+
+      .lamp-grid-wrapper {
+        padding: 2px;
+      }
+
+      /*
+       * Portrait phones:
+       *
+       * The same 84 positions are retained,
+       * but the board becomes 7 × 12 so the buttons
+       * fit the physical shape of the phone better.
+       */
+      .aac-grid {
+        gap: 2px;
+
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        grid-template-rows: repeat(12, minmax(0, 1fr));
+      }
+
+      .aac-card {
+        border-width: 1px;
+        border-radius: 5px;
+        padding: 1px;
+      }
+
+      .card-label {
+        font-size: clamp(6px, 2.2vw, 9px);
+
+        padding-top: 1px;
+      }
+
+      .aac-card.no-img .card-label {
+        font-size: clamp(7px, 2.5vw, 10px);
+      }
+
+      .is-folder::after {
+        border-width: 0 8px 8px 0;
+      }
+
+      .lamp-dock {
+        height: 58px;
+        min-height: 58px;
+
+        padding: 2px 2px;
+      }
+
+      .dock-btn {
+        padding: 5px 7px;
+
+        font-size: 8px;
+
+        border-radius: 10px;
+
+        gap: 1px;
+      }
+
+      .dock-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+
+    /* =========================================================
+       VERY SMALL PHONES
+       ========================================================= */
+
+    @media (max-width: 380px) and (orientation: portrait) {
+
+      .lamp-sentence-bar {
+        height: 56px;
+        min-height: 56px;
+      }
+
+      .lamp-token {
+        height: 46px;
+        min-width: 34px;
+      }
+
+      .lamp-token img {
+        height: 24px;
+      }
+
+      .lamp-token span {
+        font-size: 8px;
+      }
+
+      .lamp-delete-btn {
+        width: 38px;
+        height: 38px;
+        flex-basis: 38px;
+      }
+
+      .lamp-context-bar {
+        height: 22px;
+        min-height: 22px;
+
+        font-size: 8px;
+      }
+
+      .aac-grid {
+        gap: 1px;
+      }
+
+      .aac-card {
+        border-radius: 3px;
+      }
+
+      .card-label {
+        font-size: 6px;
+      }
+
+      .lamp-dock {
+        height: 54px;
+        min-height: 54px;
+      }
+
+      .dock-btn {
+        padding: 4px 5px;
+        font-size: 7px;
+      }
+
+      .dock-btn svg {
+        width: 17px;
+        height: 17px;
+      }
+    }
+
+
+    /* =========================================================
+       LANDSCAPE DESKTOP / LARGE TABLETS
+       ========================================================= */
+
+    @media (min-width: 701px) and (max-height: 700px) {
+
+      .lamp-sentence-bar {
+        height: 56px;
+        min-height: 56px;
+      }
+
+      .lamp-token {
+        height: 48px;
+      }
+
+      .lamp-context-bar {
+        height: 24px;
+        min-height: 24px;
+      }
+
+      .lamp-dock {
+        height: 50px;
+        min-height: 50px;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- Loading Splash -->
+
   <div id="splash">
-    <h4 class="text-dark fw-bold mb-3">I-SPEAK AAC (LAMP)</h4>
+
+    <h4 class="text-dark fw-bold mb-3">
+      I-SPEAK AAC (LAMP)
+    </h4>
+
     <div class="progress w-50" style="height: 6px;">
-      <div id="loadBar" class="progress-bar bg-primary" style="width: 0%"></div>
+      <div
+        id="loadBar"
+        class="progress-bar bg-primary"
+        style="width: 0%">
+      </div>
     </div>
+
   </div>
+
 
   <!-- Top Sentence Bar -->
+
   <div class="lamp-sentence-bar">
-    <div class="lamp-tokens-container" id="speechTokens" onclick="speakPhrase()"></div>
-    <div class="lamp-delete-btn" onclick="deleteLastToken()">
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+
+    <div
+      class="lamp-tokens-container"
+      id="speechTokens"
+      onclick="speakPhrase()">
     </div>
+
+    <div
+      class="lamp-delete-btn"
+      onclick="deleteLastToken()">
+
+      <svg
+        viewBox="0 0 24 24"
+        width="18"
+        height="18"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round">
+
+        <path d="M18 6L6 18M6 6l12 12"/>
+
+      </svg>
+
+    </div>
+
   </div>
+
 
   <!-- Sub-Header Context Bar -->
+
   <div class="lamp-context-bar">
-    <span id="folderTitle">VOCAB: HOME</span>
-    <span id="voiceLabel" class="text-muted">VOICE: DEFAULT</span>
+
+    <span id="folderTitle">
+      VOCAB: HOME
+    </span>
+
+    <span
+      id="voiceLabel"
+      class="text-muted">
+      VOICE: DEFAULT
+    </span>
+
   </div>
+
 
   <!-- 84-Location Grid -->
+
   <div class="lamp-grid-wrapper">
-    <div class="aac-grid" id="grid"></div>
+
+    <div
+      class="aac-grid"
+      id="grid">
+    </div>
+
   </div>
+
 
   <!-- Bottom Native Navigation Dock -->
+
   <div class="lamp-dock">
-    <button class="dock-btn" onclick="openKeyboard()">
-      <svg viewBox="0 0 24 24"><path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-3 0h2v2H5v-2zm0-3h2v2H5V8zm11 10H8v-2h8v2zm1-3h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z"/></svg>
+
+    <button
+      class="dock-btn"
+      onclick="openKeyboard()">
+
+      <svg viewBox="0 0 24 24">
+        <path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-3 0h2v2H5v-2zm0-3h2v2H5V8zm11 10H8v-2h8v2zm1-3h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z"/>
+      </svg>
+
       Keyboard
+
     </button>
-    <button class="dock-btn" onclick="goHome()">
-      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+
+
+    <button
+      class="dock-btn"
+      onclick="goHome()">
+
+      <svg viewBox="0 0 24 24">
+        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+      </svg>
+
       Home
+
     </button>
-    <button class="dock-btn" onclick="showBigText()">
-      <svg viewBox="0 0 24 24"><path d="M2.5 4v3h5v12h3V7h5V4h-13zm19 5h-9v3h3v7h3v-7h3V9z"/></svg>
+
+
+    <button
+      class="dock-btn"
+      onclick="showBigText()">
+
+      <svg viewBox="0 0 24 24">
+        <path d="M2.5 4v3h5v12h3V7h5V4h-13zm19 5h-9v3h3v7h3v-7h3V9z"/>
+      </svg>
+
       Big Text
+
     </button>
+
+
     <div class="dropdown">
-      <button class="dock-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
-        <svg viewBox="0 0 24 24"><path d="M12 15c1.66 0 2.99-1.34 2.99-3L15 6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 15 6.7 12H5c0 3.41 2.72 6.23 6 6.72V22h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+
+      <button
+        class="dock-btn dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown">
+
+        <svg viewBox="0 0 24 24">
+          <path d="M12 15c1.66 0 2.99-1.34 2.99-3L15 6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 15 6.7 12H5c0 3.41 2.72 6.23 6 6.72V22h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/>
+        </svg>
+
         Voice
+
       </button>
-      <ul class="dropdown-menu" id="voiceSelectMenu" style="max-height: 260px; overflow-y: auto;"></ul>
+
+
+      <ul
+        class="dropdown-menu"
+        id="voiceSelectMenu"
+        style="max-height: 260px; overflow-y: auto;">
+      </ul>
+
     </div>
+
   </div>
+
 
   <!-- Keyboard Modal -->
-  <div class="modal fade" id="keyboardModal" tabindex="-1">
+
+  <div
+    class="modal fade"
+    id="keyboardModal"
+    tabindex="-1">
+
     <div class="modal-dialog modal-dialog-centered">
+
       <div class="modal-content bg-light text-dark border">
+
         <div class="modal-header border-bottom py-2">
-          <h6 class="modal-title">Type Custom Word</h6>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+          <h6 class="modal-title">
+            Type Custom Word
+          </h6>
+
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal">
+          </button>
+
         </div>
+
+
         <div class="modal-body">
-          <input type="text" id="customInput" class="form-control form-control-lg mb-3" placeholder="Type word or phrase...">
-          <button class="btn btn-primary w-100 fw-bold" onclick="submitCustomText()">Add to Sentence</button>
+
+          <input
+            type="text"
+            id="customInput"
+            class="form-control form-control-lg mb-3"
+            placeholder="Type word or phrase...">
+
+          <button
+            class="btn btn-primary w-100 fw-bold"
+            onclick="submitCustomText()">
+
+            Add to Sentence
+
+          </button>
+
         </div>
+
       </div>
+
     </div>
+
   </div>
+
 
   <!-- Big Text Fullscreen Modal -->
-  <div class="modal fade" id="bigTextModal" tabindex="-1" onclick="closeBigText()">
+
+  <div
+    class="modal fade"
+    id="bigTextModal"
+    tabindex="-1"
+    onclick="closeBigText()">
+
     <div class="modal-dialog modal-fullscreen">
-      <div class="modal-content bg-white d-flex align-items-center justify-content-center p-4">
-        <h1 id="bigTextOverlay" class="display-1 fw-black text-center text-dark">READY</h1>
+
+      <div
+        class="modal-content bg-white d-flex align-items-center justify-content-center p-4">
+
+        <h1
+          id="bigTextOverlay"
+          class="display-1 fw-black text-center text-dark">
+
+          READY
+
+        </h1>
+
       </div>
+
     </div>
+
   </div>
 
+
   <script src="js/bootstrap.bundle.min.js"></script>
+
   <script>
+
     let symbolLibrary = {};
     let boardConfig = {};
+
     let selectedTokens = [];
+
     let availableVoices = [];
-    let selectedVoiceURI = localStorage.getItem('ispeak_voice_uri') || null;
 
-    const grid = document.getElementById('grid');
-    const speechTokens = document.getElementById('speechTokens');
-    const folderTitle = document.getElementById('folderTitle');
-    const voiceLabel = document.getElementById('voiceLabel');
-    const voiceSelectMenu = document.getElementById('voiceSelectMenu');
+    let selectedVoiceURI =
+      localStorage.getItem('ispeak_voice_uri') || null;
 
-    // Default LAMP 84-Grid High-Density Fallback
+
+    const grid =
+      document.getElementById('grid');
+
+    const speechTokens =
+      document.getElementById('speechTokens');
+
+    const folderTitle =
+      document.getElementById('folderTitle');
+
+    const voiceLabel =
+      document.getElementById('voiceLabel');
+
+    const voiceSelectMenu =
+      document.getElementById('voiceSelectMenu');
+
+
+    /* =========================================================
+       DEFAULT LAMP 84-GRID
+       ========================================================= */
+
     const lampFallback84 = [
+
       { label: "finished", colorGroup: "white", symbol_ref: "finished" },
       { label: "mine", colorGroup: "white", symbol_ref: "mine" },
       { label: "little", colorGroup: "white", symbol_ref: "little" },
@@ -465,221 +1202,719 @@
       { label: "watch", colorGroup: "white", symbol_ref: "watch" },
       { label: "turn", colorGroup: "white", symbol_ref: "turn" },
       { label: "sleep", colorGroup: "white", symbol_ref: "sleep" }
+
     ];
 
+
+    /* =========================================================
+       INITIALISE
+       ========================================================= */
+
     async function initApp() {
+
       try {
+
         document.getElementById('loadBar').style.width = '40%';
-        const libRes = await fetch('symbols-library.json').catch(() => null);
-        if (libRes && libRes.ok) symbolLibrary = await libRes.json();
+
+        const libRes =
+          await fetch('symbols-library.json').catch(() => null);
+
+        if (libRes && libRes.ok) {
+          symbolLibrary = await libRes.json();
+        }
+
 
         document.getElementById('loadBar').style.width = '80%';
-        const boardRes = await fetch('board.json').catch(() => null);
-        if (boardRes && boardRes.ok) boardConfig = await boardRes.json();
 
-        const tilesToRender = (boardConfig && boardConfig.tiles) ? boardConfig.tiles : lampFallback84;
+        const boardRes =
+          await fetch('board.json').catch(() => null);
+
+        if (boardRes && boardRes.ok) {
+          boardConfig = await boardRes.json();
+        }
+
+
+        const tilesToRender =
+          (boardConfig && boardConfig.tiles)
+            ? boardConfig.tiles
+            : lampFallback84;
+
+
         renderBoard(tilesToRender, "HOME");
 
+
         document.getElementById('loadBar').style.width = '100%';
+
+
         setTimeout(() => {
-          const splash = document.getElementById('splash');
-          if (splash) splash.remove();
+
+          const splash =
+            document.getElementById('splash');
+
+          if (splash) {
+            splash.remove();
+          }
+
         }, 150);
 
+
         populateVoices();
-      } catch (err) {
-        renderBoard(lampFallback84, "HOME");
-        populateVoices();
+
       }
+
+      catch (err) {
+
+        renderBoard(lampFallback84, "HOME");
+
+        populateVoices();
+
+      }
+
     }
+
+
+    /* =========================================================
+       SYMBOL PATH
+       ========================================================= */
 
     function getSymbolPath(tile) {
-      if (!tile.symbol_ref) return null;
-      const ref = tile.symbol_ref;
-      if (symbolLibrary[ref]) {
-        return typeof symbolLibrary[ref] === 'string' ? symbolLibrary[ref] : symbolLibrary[ref].path;
+
+      if (!tile.symbol_ref) {
+        return null;
       }
+
+      const ref = tile.symbol_ref;
+
+
+      if (symbolLibrary[ref]) {
+
+        return typeof symbolLibrary[ref] === 'string'
+          ? symbolLibrary[ref]
+          : symbolLibrary[ref].path;
+
+      }
+
+
       return `symbols/${ref}.png`;
+
     }
 
-    function renderBoard(tiles, folderName = "HOME") {
-      grid.innerHTML = '';
-      folderTitle.textContent = `VOCAB: ${folderName.toUpperCase()}`;
 
-      // Restart the fade-in animation on every render (folder open, home, etc.)
+    /* =========================================================
+       RENDER BOARD
+       ========================================================= */
+
+    function renderBoard(
+      tiles,
+      folderName = "HOME"
+    ) {
+
+      grid.innerHTML = '';
+
+      folderTitle.textContent =
+        `VOCAB: ${folderName.toUpperCase()}`;
+
+
       grid.classList.remove('fade-in');
-      void grid.offsetWidth; // force reflow so the animation replays
+
+      void grid.offsetWidth;
+
       grid.classList.add('fade-in');
 
-      tiles.forEach(tile => {
-        const card = document.createElement('div');
-        const colorGroup = tile.colorGroup || 'yellow';
-        const isFolder = tile.type === 'folder';
 
-        card.className = `aac-card cg-${colorGroup} ${isFolder ? 'is-folder' : ''}`;
-        const imgPath = getSymbolPath(tile);
+      tiles.forEach(tile => {
+
+        const card =
+          document.createElement('div');
+
+
+        const colorGroup =
+          tile.colorGroup || 'yellow';
+
+
+        const isFolder =
+          tile.type === 'folder';
+
+
+        card.className =
+          `aac-card cg-${colorGroup} ${isFolder ? 'is-folder' : ''}`;
+
+
+        const imgPath =
+          getSymbolPath(tile);
+
 
         card.innerHTML = `
-          <span class="card-label">${tile.label}</span>
-          ${imgPath ? `<img src="${imgPath}" alt="${tile.label}" onerror="handleImgError(this)">` : ''}
+          <span class="card-label">
+            ${tile.label}
+          </span>
+
+          ${
+            imgPath
+              ? `<img src="${imgPath}" alt="${tile.label}" onerror="handleImgError(this)">`
+              : ''
+          }
         `;
 
-        if (!imgPath) card.classList.add('no-img');
+
+        if (!imgPath) {
+          card.classList.add('no-img');
+        }
+
 
         card.onclick = () => {
-          if (navigator.vibrate) navigator.vibrate(8);
+
+          if (navigator.vibrate) {
+            navigator.vibrate(8);
+          }
+
+
           if (tile.label === 'CLEAR') {
+
             clearText();
+
             return;
+
           }
+
+
           if (isFolder && tile.subGrid) {
-            renderBoard(tile.subGrid, tile.label);
-          } else {
-            addToken(tile.label, imgPath, tile.speak || tile.label);
+
+            renderBoard(
+              tile.subGrid,
+              tile.label
+            );
+
           }
+
+          else {
+
+            addToken(
+              tile.label,
+              imgPath,
+              tile.speak || tile.label
+            );
+
+          }
+
         };
 
+
         grid.appendChild(card);
+
       });
+
     }
+
+
+    /* =========================================================
+       IMAGE ERROR
+       ========================================================= */
 
     function handleImgError(img) {
-      const parent = img.parentElement;
+
+      const parent =
+        img.parentElement;
+
       img.remove();
-      if (parent) parent.classList.add('no-img');
+
+      if (parent) {
+        parent.classList.add('no-img');
+      }
+
     }
 
-    function addToken(label, imgPath, speakText) {
-      selectedTokens.push({ label, imgPath, speakText });
+
+    /* =========================================================
+       ADD TOKEN
+       ========================================================= */
+
+    function addToken(
+      label,
+      imgPath,
+      speakText
+    ) {
+
+      selectedTokens.push({
+        label,
+        imgPath,
+        speakText
+      });
+
+
       renderTokens();
+
       speakWord(speakText);
+
     }
+
+
+    /* =========================================================
+       RENDER SENTENCE
+       ========================================================= */
 
     function renderTokens() {
+
       speechTokens.innerHTML = '';
+
+
       selectedTokens.forEach(token => {
-        const chip = document.createElement('div');
-        chip.className = 'lamp-token';
+
+        const chip =
+          document.createElement('div');
+
+
+        chip.className =
+          'lamp-token';
+
+
         chip.innerHTML = `
-          <span>${token.label}</span>
-          ${token.imgPath ? `<img src="${token.imgPath}" onerror="this.remove()">` : ''}
+          <span>
+            ${token.label}
+          </span>
+
+          ${
+            token.imgPath
+              ? `<img src="${token.imgPath}" onerror="this.remove()">`
+              : ''
+          }
         `;
+
+
         speechTokens.appendChild(chip);
+
       });
-      speechTokens.scrollLeft = speechTokens.scrollWidth;
+
+
+      speechTokens.scrollLeft =
+        speechTokens.scrollWidth;
+
     }
+
+
+    /* =========================================================
+       DELETE LAST TOKEN
+       ========================================================= */
 
     function deleteLastToken() {
-      selectedTokens.pop();
-      renderTokens();
-    }
 
-    function speakWord(text) {
-      if (!text) return;
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      if (availableVoices.length > 0) {
-        let voiceObj = availableVoices.find(v => v.voiceURI === selectedVoiceURI);
-        if (voiceObj) utterance.voice = voiceObj;
-      }
-      utterance.rate = 0.95;
-      window.speechSynthesis.speak(utterance);
-    }
-
-    function speakPhrase() {
-      if (selectedTokens.length === 0) return;
-      const fullText = selectedTokens.map(t => t.speakText).join(' ');
-      speakWord(fullText);
-    }
-
-    function clearText() {
-      selectedTokens = [];
-      renderTokens();
-    }
-
-    function populateVoices() {
-      availableVoices = window.speechSynthesis.getVoices();
-      if (availableVoices.length === 0) {
-        setTimeout(populateVoices, 100);
+      if (selectedTokens.length === 0) {
         return;
       }
 
+
+      selectedTokens.pop();
+
+      renderTokens();
+
+
+      if (navigator.vibrate) {
+        navigator.vibrate(15);
+      }
+
+    }
+
+
+    /* =========================================================
+       SPEECH
+       ========================================================= */
+
+    function speakWord(text) {
+
+      if (!text) {
+        return;
+      }
+
+
+      window.speechSynthesis.cancel();
+
+
+      const utterance =
+        new SpeechSynthesisUtterance(text);
+
+
+      if (availableVoices.length > 0) {
+
+        const voiceObj =
+          availableVoices.find(
+            v => v.voiceURI === selectedVoiceURI
+          );
+
+
+        if (voiceObj) {
+          utterance.voice = voiceObj;
+        }
+
+      }
+
+
+      utterance.rate = 0.95;
+
+
+      window.speechSynthesis.speak(
+        utterance
+      );
+
+    }
+
+
+    function speakPhrase() {
+
+      if (selectedTokens.length === 0) {
+        return;
+      }
+
+
+      const fullText =
+        selectedTokens
+          .map(t => t.speakText)
+          .join(' ');
+
+
+      speakWord(fullText);
+
+    }
+
+
+    /* =========================================================
+       CLEAR
+       ========================================================= */
+
+    function clearText() {
+
+      selectedTokens = [];
+
+      renderTokens();
+
+    }
+
+
+    /* =========================================================
+       VOICES
+       ========================================================= */
+
+    function populateVoices() {
+
+      availableVoices =
+        window.speechSynthesis.getVoices();
+
+
+      if (availableVoices.length === 0) {
+
+        setTimeout(
+          populateVoices,
+          100
+        );
+
+        return;
+
+      }
+
+
       voiceSelectMenu.innerHTML = '';
-      availableVoices.forEach((voice) => {
-        const isPersonal = voice.name.toLowerCase().includes('personal voice');
-        const li = document.createElement('li');
-        const a = document.createElement('a');
+
+
+      availableVoices.forEach(voice => {
+
+        const isPersonal =
+          voice.name
+            .toLowerCase()
+            .includes('personal voice');
+
+
+        const li =
+          document.createElement('li');
+
+
+        const a =
+          document.createElement('a');
+
+
         a.href = '#';
-        a.className = 'dropdown-item' + (voice.voiceURI === selectedVoiceURI ? ' active' : '') + (isPersonal ? ' fw-bold' : '');
-        a.textContent = `${voice.name} (${voice.lang})${isPersonal ? ' — Your Voice' : ''}`;
-        a.addEventListener('click', (e) => {
-          e.preventDefault();
-          selectVoice(voice.voiceURI, voice.name);
-        });
+
+
+        a.className =
+          'dropdown-item' +
+          (
+            voice.voiceURI === selectedVoiceURI
+              ? ' active'
+              : ''
+          ) +
+          (
+            isPersonal
+              ? ' fw-bold'
+              : ''
+          );
+
+
+        a.textContent =
+          `${voice.name} (${voice.lang})` +
+          (
+            isPersonal
+              ? ' — Your Voice'
+              : ''
+          );
+
+
+        a.addEventListener(
+          'click',
+          e => {
+
+            e.preventDefault();
+
+            selectVoice(
+              voice.voiceURI,
+              voice.name
+            );
+
+          }
+        );
+
+
         li.appendChild(a);
+
         voiceSelectMenu.appendChild(li);
+
       });
 
-      if (!selectedVoiceURI && availableVoices.length > 0) {
-        // Prefer the user's own Apple Personal Voice if they've set one up,
-        // then fall back to a high-quality system voice.
+
+      if (
+        !selectedVoiceURI &&
+        availableVoices.length > 0
+      ) {
+
         const bestVoice =
-          availableVoices.find(v => v.name.toLowerCase().includes('personal voice')) ||
-          availableVoices.find(v => v.lang.startsWith('en') && (v.name.includes('Enhanced') || v.name.includes('Natural'))) ||
+
+          availableVoices.find(
+            v =>
+              v.name
+                .toLowerCase()
+                .includes('personal voice')
+          ) ||
+
+          availableVoices.find(
+            v =>
+              v.lang.startsWith('en') &&
+              (
+                v.name.includes('Enhanced') ||
+                v.name.includes('Natural')
+              )
+          ) ||
+
           availableVoices[0];
-        selectedVoiceURI = bestVoice.voiceURI;
-        voiceLabel.textContent = `VOICE: ${bestVoice.name.toUpperCase()}`;
-      } else if (selectedVoiceURI) {
-        const currentVoice = availableVoices.find(v => v.voiceURI === selectedVoiceURI);
-        if (currentVoice) voiceLabel.textContent = `VOICE: ${currentVoice.name.toUpperCase()}`;
+
+
+        selectedVoiceURI =
+          bestVoice.voiceURI;
+
+
+        localStorage.setItem(
+          'ispeak_voice_uri',
+          selectedVoiceURI
+        );
+
+
+        voiceLabel.textContent =
+          `VOICE: ${bestVoice.name.toUpperCase()}`;
+
       }
+
+      else if (selectedVoiceURI) {
+
+        const currentVoice =
+          availableVoices.find(
+            v =>
+              v.voiceURI === selectedVoiceURI
+          );
+
+
+        if (currentVoice) {
+
+          voiceLabel.textContent =
+            `VOICE: ${currentVoice.name.toUpperCase()}`;
+
+        }
+
+      }
+
     }
+
+
+    /* =========================================================
+       SELECT VOICE
+       ========================================================= */
 
     function selectVoice(uri, name) {
+
       selectedVoiceURI = uri;
-      localStorage.setItem('ispeak_voice_uri', selectedVoiceURI);
-      voiceLabel.textContent = `VOICE: ${name.toUpperCase()}`;
+
+
+      localStorage.setItem(
+        'ispeak_voice_uri',
+        selectedVoiceURI
+      );
+
+
+      voiceLabel.textContent =
+        `VOICE: ${name.toUpperCase()}`;
+
+
       populateVoices();
+
+
       speakWord("Voice updated");
+
     }
+
+
+    /* =========================================================
+       KEYBOARD
+       ========================================================= */
 
     function openKeyboard() {
-      const modal = new bootstrap.Modal(document.getElementById('keyboardModal'));
+
+      const modal =
+        new bootstrap.Modal(
+          document.getElementById(
+            'keyboardModal'
+          )
+        );
+
+
       modal.show();
+
     }
+
 
     function submitCustomText() {
-      const input = document.getElementById('customInput');
+
+      const input =
+        document.getElementById(
+          'customInput'
+        );
+
+
       if (input.value.trim()) {
-        addToken(input.value.trim(), null, input.value.trim());
+
+        addToken(
+          input.value.trim(),
+          null,
+          input.value.trim()
+        );
+
+
         input.value = '';
-        bootstrap.Modal.getInstance(document.getElementById('keyboardModal')).hide();
+
+
+        bootstrap.Modal
+          .getInstance(
+            document.getElementById(
+              'keyboardModal'
+            )
+          )
+          .hide();
+
       }
+
     }
+
+
+    /* =========================================================
+       BIG TEXT
+       ========================================================= */
 
     function showBigText() {
-      const text = selectedTokens.length > 0 ? selectedTokens.map(t => t.label).join(' ') : "READY";
-      document.getElementById('bigTextOverlay').textContent = text;
-      const modal = new bootstrap.Modal(document.getElementById('bigTextModal'));
+
+      const text =
+        selectedTokens.length > 0
+          ? selectedTokens
+              .map(t => t.label)
+              .join(' ')
+          : "READY";
+
+
+      document.getElementById(
+        'bigTextOverlay'
+      ).textContent = text;
+
+
+      const modal =
+        new bootstrap.Modal(
+          document.getElementById(
+            'bigTextModal'
+          )
+        );
+
+
       modal.show();
+
     }
+
 
     function closeBigText() {
-      const modalEl = document.getElementById('bigTextModal');
-      const instance = bootstrap.Modal.getInstance(modalEl);
-      if (instance) instance.hide();
+
+      const modalEl =
+        document.getElementById(
+          'bigTextModal'
+        );
+
+
+      const instance =
+        bootstrap.Modal.getInstance(
+          modalEl
+        );
+
+
+      if (instance) {
+        instance.hide();
+      }
+
     }
+
+
+    /* =========================================================
+       HOME
+       ========================================================= */
 
     function goHome() {
-      const tilesToRender = (boardConfig && boardConfig.tiles) ? boardConfig.tiles : lampFallback84;
-      renderBoard(tilesToRender, "HOME");
+
+      const tilesToRender =
+        (boardConfig && boardConfig.tiles)
+          ? boardConfig.tiles
+          : lampFallback84;
+
+
+      renderBoard(
+        tilesToRender,
+        "HOME"
+      );
+
     }
 
-    if (typeof window.speechSynthesis !== 'undefined') {
-      window.speechSynthesis.onvoiceschanged = populateVoices;
+
+    /* =========================================================
+       SPEECH VOICE EVENT
+       ========================================================= */
+
+    if (
+      typeof window.speechSynthesis !== 'undefined'
+    ) {
+
+      window.speechSynthesis.onvoiceschanged =
+        populateVoices;
+
     }
 
-    window.onload = initApp;
+
+    /* =========================================================
+       START APP
+       ========================================================= */
+
+    window.onload =
+      initApp;
+
   </script>
+
 </body>
 </html>
+```
