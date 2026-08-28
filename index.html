@@ -10,39 +10,39 @@
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
   <meta name="theme-color" content="#2c3e50">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
   <style>
     :root {
-      --bs-body-bg: #2c3e50;
+      --bs-body-bg: #1e293b;
       --bs-body-color: #ffffff;
     }
     * {
       touch-action: manipulation;
       user-select: none;
       -webkit-user-select: none;
+      box-sizing: border-box;
     }
     body {
       height: 100dvh;
       width: 100vw;
       overflow: hidden;
-      padding: max(6px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
+      padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+      background-color: #1e293b;
     }
 
-    /* Proloquo2Go Pro Sentence Bar */
+    /* Proloquo2Go Top Bar */
     .sentence-bar {
-      min-height: 70px;
+      min-height: 80px;
       background: #ffffff;
-      border: 3px solid #1e293b;
+      border: 3px solid #000000;
       border-radius: 8px;
     }
     .token-chip {
-      height: 52px;
+      height: 60px;
       background: #f8fafc;
       border: 2px solid #0f172a;
       border-radius: 6px;
-      padding: 2px 6px;
+      padding: 4px 8px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -50,82 +50,95 @@
       flex-shrink: 0;
     }
     .token-chip img {
-      height: 30px;
+      height: 36px;
       width: auto;
       object-fit: contain;
     }
     .token-chip span {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 800;
       color: #000000;
       text-transform: uppercase;
     }
 
-    /* AAC Grid Cards */
+    /* AAC Grid Layout */
     .aac-grid {
       display: grid;
-      gap: 6px;
+      gap: 8px;
       height: 100%;
       width: 100%;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(6, 1fr);
+      grid-template-rows: repeat(5, 1fr);
     }
     @media (min-width: 576px) {
-      .aac-grid { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(5, 1fr); }
+      .aac-grid { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 1fr); }
     }
     @media (min-width: 768px) {
-      .aac-grid { grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(5, 1fr); }
+      .aac-grid { grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(4, 1fr); }
     }
 
+    /* Proloquo2Go Card Styling */
     .aac-card {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       border: 3px solid #000000;
-      border-radius: 8px;
-      padding: 4px;
+      border-radius: 10px;
+      padding: 6px;
       font-weight: 800;
-      box-shadow: 0 3px 0px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 0px rgba(0,0,0,0.4);
       cursor: pointer;
       position: relative;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
     }
     .aac-card:active {
       transform: translateY(2px);
-      box-shadow: none;
+      box-shadow: 0 2px 0px rgba(0,0,0,0.4);
     }
     .aac-card img {
-      max-height: 65%;
+      flex: 1;
+      max-height: 70%;
       max-width: 90%;
       object-fit: contain;
+      margin-top: 4px;
+      pointer-events: none;
     }
     .card-label {
-      font-size: clamp(10px, 1.8vw, 14px);
+      font-size: clamp(11px, 1.5vw, 15px);
       color: #000000;
       text-transform: uppercase;
       line-height: 1;
+      font-weight: 900;
+      text-align: center;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    /* Fitzgerald Colors */
+    /* Color Scheme (Fitzgerald Key) */
     .cg-yellow { background-color: #fef08a; } /* Pronouns */
-    .cg-green  { background-color: #86efac; } /* Verbs */
-    .cg-orange { background-color: #ffedd5; } /* Nouns */
-    .cg-blue   { background-color: #bae6fd; } /* Adjectives */
-    .cg-pink   { background-color: #fbcfe8; } /* Social */
+    .cg-green  { background-color: #86efac; } /* Verbs / Actions */
+    .cg-orange { background-color: #ffedd5; } /* Nouns / Objects */
+    .cg-blue   { background-color: #bae6fd; } /* Social / Descriptors */
+    .cg-pink   { background-color: #fbcfe8; } /* Quick / Utility */
     .cg-purple { background-color: #e9d5ff; } /* Questions */
 
     .is-folder::after {
       content: '📁';
       position: absolute;
-      top: 2px;
-      right: 4px;
-      font-size: 12px;
+      top: 4px;
+      right: 6px;
+      font-size: 14px;
     }
 
     #splash {
       position: fixed;
       inset: 0;
-      background: #2c3e50;
+      background: #1e293b;
       z-index: 99999;
       display: flex;
       flex-direction: column;
@@ -143,14 +156,14 @@
     </div>
   </div>
 
-  <!-- Proloquo2Go Top Bar -->
+  <!-- Sentence Bar & Top Controls -->
   <header class="d-flex flex-column gap-2 mb-2">
     <div class="d-flex align-items-center gap-2">
-      <button id="backBtn" class="btn btn-warning fw-bold border-dark border-2" onclick="goHome()" style="display:none;">‹ HOME</button>
+      <button id="backBtn" class="btn btn-warning fw-bold border-dark border-2 px-3" onclick="goHome()" style="display:none; height:80px;">‹ HOME</button>
       <div class="sentence-bar flex-grow-1 d-flex align-items-center p-2 gap-2 overflow-x-auto" id="speechTokens" onclick="speakPhrase()"></div>
     </div>
 
-    <div class="d-flex gap-1 justify-content-between">
+    <div class="d-flex gap-2 justify-content-between align-items-center">
       <select class="form-select form-select-sm border-dark border-2 fw-bold w-auto" id="voiceSelect" onchange="changeVoice()"></select>
       <div class="d-flex gap-1">
         <button class="btn btn-info btn-sm fw-bold border-dark border-2 text-white" onclick="openKeyboard()">KEYBOARD</button>
@@ -161,7 +174,7 @@
     </div>
   </header>
 
-  <!-- Main AAC Board -->
+  <!-- Main AAC Grid -->
   <main class="flex-grow-1 min-vh-0">
     <div class="aac-grid" id="grid"></div>
   </main>
@@ -182,7 +195,6 @@
     let selectedTokens = [];
     let availableVoices = [];
     let selectedVoiceURI = localStorage.getItem('ispeak_voice_uri') || null;
-    let audioUnlocked = false;
 
     const grid = document.getElementById('grid');
     const speechTokens = document.getElementById('speechTokens');
@@ -202,10 +214,11 @@
 
     async function initApp() {
       try {
-        document.getElementById('loadBar').style.width = '50%';
+        document.getElementById('loadBar').style.width = '40%';
         const libRes = await fetch('symbols-library.json').catch(() => null);
         if (libRes && libRes.ok) symbolLibrary = await libRes.json();
 
+        document.getElementById('loadBar').style.width = '80%';
         const boardRes = await fetch('board.json').catch(() => null);
         if (boardRes && boardRes.ok) boardConfig = await boardRes.json();
 
@@ -216,7 +229,7 @@
         setTimeout(() => {
           const splash = document.getElementById('splash');
           if (splash) splash.remove();
-        }, 200);
+        }, 150);
 
         populateVoices();
       } catch (err) {
@@ -225,14 +238,14 @@
       }
     }
 
-    function unlockAudio() {
-      if (audioUnlocked) return;
-      const empty = new SpeechSynthesisUtterance("");
-      window.speechSynthesis.speak(empty);
-      audioUnlocked = true;
+    function getSymbolPath(tile) {
+      if (!tile.symbol_ref) return null;
+      const ref = tile.symbol_ref;
+      if (symbolLibrary[ref]) {
+        return typeof symbolLibrary[ref] === 'string' ? symbolLibrary[ref] : symbolLibrary[ref].path;
+      }
+      return `symbols/${ref}.png`;
     }
-    document.addEventListener('touchstart', unlockAudio, { once: true });
-    document.addEventListener('click', unlockAudio, { once: true });
 
     function renderBoard(tiles, isSubFolder = false) {
       grid.innerHTML = '';
@@ -244,19 +257,21 @@
         const isFolder = tile.type === 'folder';
 
         card.className = `aac-card cg-${colorGroup} ${isFolder ? 'is-folder' : ''}`;
-        const imgPath = symbolLibrary[tile.symbol_ref] ? symbolLibrary[tile.symbol_ref].path : null;
+        const imgPath = getSymbolPath(tile);
 
         card.innerHTML = `
           <span class="card-label">${tile.label}</span>
-          ${imgPath ? `<img src="${imgPath}" alt="${tile.label}">` : `<span class="fw-bold">${tile.label}</span>`}
+          ${imgPath ? `<img src="${imgPath}" alt="${tile.label}" onerror="this.style.display='none'">` : ''}
         `;
 
         card.onclick = () => {
-          if (isFolder && tile.subGrid) {
-            renderBoard(tile.subGrid, true);
-          } else {
-            addToken(tile.label, imgPath, tile.speak || tile.label);
-          }
+          triggerAudioAndAction(() => {
+            if (isFolder && tile.subGrid) {
+              renderBoard(tile.subGrid, true);
+            } else {
+              addToken(tile.label, imgPath, tile.speak || tile.label);
+            }
+          });
         };
 
         grid.appendChild(card);
@@ -275,34 +290,37 @@
         const chip = document.createElement('div');
         chip.className = 'token-chip';
         chip.innerHTML = `
-          ${token.imgPath ? `<img src="${token.imgPath}">` : ''}
-          <span>${token.label}</span>
+          <span class="mb-1">${token.label}</span>
+          ${token.imgPath ? `<img src="${token.imgPath}" onerror="this.style.display='none'">` : ''}
         `;
         speechTokens.appendChild(chip);
       });
       speechTokens.scrollLeft = speechTokens.scrollWidth;
     }
 
-    /* Fixed Web Speech Engine Logic */
+    /* Fixed Audio & Speech Synthesis Engine */
+    function triggerAudioAndAction(actionFn) {
+      if (window.speechSynthesis.paused) window.speechSynthesis.resume();
+      actionFn();
+    }
+
     function speakWord(text) {
       if (!text) return;
+      window.speechSynthesis.cancel(); // Clears stuck audio queues
       
-      // DO NOT call speechSynthesis.cancel() here as it resets iOS voice selection
       const utterance = new SpeechSynthesisUtterance(text);
-      
       if (availableVoices.length > 0) {
         let voiceObj = availableVoices.find(v => v.voiceURI === selectedVoiceURI);
-        if (!voiceObj) voiceObj = availableVoices[0];
-        utterance.voice = voiceObj;
+        if (voiceObj) utterance.voice = voiceObj;
       }
 
-      utterance.rate = 0.9;
+      utterance.rate = 0.95;
+      utterance.volume = 1.0;
       window.speechSynthesis.speak(utterance);
     }
 
     function speakPhrase() {
       if (selectedTokens.length === 0) return;
-      window.speechSynthesis.cancel(); // Clear old queue before full phrase
       const fullText = selectedTokens.map(t => t.speakText).join(' ');
       speakWord(fullText);
     }
@@ -351,9 +369,6 @@
     }
 
     window.onload = initApp;
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js');
-    }
   </script>
 </body>
 </html>
