@@ -9,12 +9,12 @@
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
-  <meta name="theme-color" content="#2c3e50">
+  <meta name="theme-color" content="#000000">
 
   <style>
     :root {
-      --bs-body-bg: #1e293b;
-      --bs-body-color: #ffffff;
+      --bs-body-bg: #000000;
+      --bs-body-color: #000000;
     }
     * {
       touch-action: manipulation;
@@ -26,119 +26,188 @@
       height: 100dvh;
       width: 100vw;
       overflow: hidden;
-      padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
-      background-color: #1e293b;
+      background-color: #000000;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     }
 
-    /* Proloquo2Go Top Bar */
-    .sentence-bar {
-      min-height: 80px;
+    /* 1. Proloquo Top Sentence Bar */
+    .p2g-sentence-container {
+      height: 64px;
       background: #ffffff;
-      border: 3px solid #000000;
-      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      border-bottom: 2px solid #000000;
+      padding: 2px 6px;
     }
-    .token-chip {
-      height: 60px;
-      background: #f8fafc;
-      border: 2px solid #0f172a;
-      border-radius: 6px;
-      padding: 4px 8px;
+    .p2g-sentence-bar {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow-x: auto;
+      cursor: pointer;
+    }
+    .p2g-token {
+      height: 54px;
+      min-width: 44px;
+      background: #ffffff;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 2px 4px;
       flex-shrink: 0;
     }
-    .token-chip img {
-      height: 36px;
+    .p2g-token span {
+      font-size: 10px;
+      font-weight: 800;
+      color: #000000;
+      line-height: 1;
+    }
+    .p2g-token img {
+      height: 32px;
       width: auto;
       object-fit: contain;
     }
-    .token-chip span {
-      font-size: 11px;
-      font-weight: 800;
-      color: #000000;
-      text-transform: uppercase;
+    .p2g-delete-btn {
+      width: 44px;
+      height: 44px;
+      background: #262626;
+      color: #ffffff;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      border: 1px solid #000000;
     }
 
-    /* AAC Grid Layout */
+    /* 2. Folder Context Header */
+    .p2g-folder-header {
+      height: 28px;
+      background: #1a1a1a;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      border-bottom: 1px solid #333333;
+    }
+
+    /* 3. High Density AAC Grid (Matches Screenshots) */
+    .p2g-grid-container {
+      flex: 1;
+      min-height: 0;
+      background: #d1d5db;
+      padding: 3px;
+    }
     .aac-grid {
       display: grid;
-      gap: 8px;
+      gap: 3px;
       height: 100%;
       width: 100%;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(5, 1fr);
-    }
-    @media (min-width: 576px) {
-      .aac-grid { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 1fr); }
-    }
-    @media (min-width: 768px) {
-      .aac-grid { grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(4, 1fr); }
+      grid-template-columns: repeat(10, 1fr);
+      grid-template-rows: repeat(6, 1fr);
     }
 
-    /* Proloquo2Go Card Styling */
+    /* Proloquo Tile Design */
     .aac-card {
+      background: #ffffff;
+      border: 1px solid #333333;
+      border-radius: 4px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      border: 3px solid #000000;
-      border-radius: 10px;
-      padding: 6px;
-      font-weight: 800;
-      box-shadow: 0 4px 0px rgba(0,0,0,0.4);
+      padding: 2px;
       cursor: pointer;
       position: relative;
+      overflow: hidden;
       height: 100%;
       width: 100%;
-      overflow: hidden;
     }
     .aac-card:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 0px rgba(0,0,0,0.4);
-    }
-    .aac-card img {
-      flex: 1;
-      max-height: 70%;
-      max-width: 90%;
-      object-fit: contain;
-      margin-top: 4px;
-      pointer-events: none;
+      opacity: 0.7;
     }
     .card-label {
-      font-size: clamp(11px, 1.5vw, 15px);
+      font-size: clamp(9px, 1.1vw, 12px);
+      font-weight: 800;
       color: #000000;
-      text-transform: uppercase;
-      line-height: 1;
-      font-weight: 900;
       text-align: center;
+      line-height: 1.1;
       width: 100%;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      margin-bottom: 1px;
+    }
+    .aac-card img {
+      flex: 1;
+      max-height: 72%;
+      max-width: 95%;
+      object-fit: contain;
+      pointer-events: none;
+    }
+    .aac-card.no-img {
+      justify-content: center;
     }
 
-    /* Color Scheme (Fitzgerald Key) */
+    /* Authentic Color Coding */
     .cg-yellow { background-color: #fef08a; } /* Pronouns */
-    .cg-green  { background-color: #86efac; } /* Verbs / Actions */
-    .cg-orange { background-color: #ffedd5; } /* Nouns / Objects */
-    .cg-blue   { background-color: #bae6fd; } /* Social / Descriptors */
-    .cg-pink   { background-color: #fbcfe8; } /* Quick / Utility */
-    .cg-purple { background-color: #e9d5ff; } /* Questions */
+    .cg-green  { background-color: #bbf7d0; } /* Verbs */
+    .cg-orange { background-color: #ffedd5; } /* Nouns */
+    .cg-pink   { background-color: #fbcfe8; } /* Social / Modifiers */
+    .cg-blue   { background-color: #bae6fd; } /* Prepositions */
+    .cg-white  { background-color: #ffffff; }
 
     .is-folder::after {
       content: '📁';
       position: absolute;
-      top: 4px;
-      right: 6px;
-      font-size: 14px;
+      top: 1px;
+      right: 2px;
+      font-size: 10px;
+    }
+
+    /* 4. Bottom Proloquo Navigation Dock */
+    .p2g-bottom-dock {
+      height: 48px;
+      background: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 10px;
+      border-top: 1px solid #222222;
+    }
+    .dock-btn {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      gap: 2px;
+    }
+    .dock-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
     }
 
     #splash {
       position: fixed;
       inset: 0;
-      background: #1e293b;
+      background: #000000;
       z-index: 99999;
       display: flex;
       flex-direction: column;
@@ -147,37 +216,69 @@
     }
   </style>
 </head>
-<body class="d-flex flex-column">
+<body>
 
   <div id="splash">
-    <h2 class="text-white fw-bold mb-3">I-SPEAK AAC</h2>
-    <div class="progress w-50" style="height: 10px;">
-      <div id="loadBar" class="progress-bar bg-success" style="width: 0%"></div>
+    <h3 class="text-white fw-bold mb-3">I-SPEAK AAC</h3>
+    <div class="progress w-50" style="height: 6px;">
+      <div id="loadBar" class="progress-bar bg-primary" style="width: 0%"></div>
     </div>
   </div>
 
-  <!-- Sentence Bar & Top Controls -->
-  <header class="d-flex flex-column gap-2 mb-2">
-    <div class="d-flex align-items-center gap-2">
-      <button id="backBtn" class="btn btn-warning fw-bold border-dark border-2 px-3" onclick="goHome()" style="display:none; height:80px;">‹ HOME</button>
-      <div class="sentence-bar flex-grow-1 d-flex align-items-center p-2 gap-2 overflow-x-auto" id="speechTokens" onclick="speakPhrase()"></div>
-    </div>
+  <!-- Top Sentence Bar -->
+  <div class="p2g-sentence-container">
+    <div class="p2g-sentence-bar" id="speechTokens" onclick="speakPhrase()"></div>
+    <div class="p2g-delete-btn" onclick="deleteLastToken()">✖</div>
+  </div>
 
-    <div class="d-flex gap-2 justify-content-between align-items-center">
-      <select class="form-select form-select-sm border-dark border-2 fw-bold w-auto" id="voiceSelect" onchange="changeVoice()"></select>
-      <div class="d-flex gap-1">
-        <button class="btn btn-info btn-sm fw-bold border-dark border-2 text-white" onclick="openKeyboard()">KEYBOARD</button>
-        <button class="btn btn-secondary btn-sm fw-bold border-dark border-2" onclick="showBigText()">BIG TEXT</button>
-        <button class="btn btn-success btn-sm fw-bold border-dark border-2" onclick="speakPhrase()">SPEAK</button>
-        <button class="btn btn-danger btn-sm fw-bold border-dark border-2" onclick="clearText()">CLEAR</button>
+  <!-- Active Folder Header -->
+  <div class="p2g-folder-header" id="folderHeader">
+    🏠 Home
+  </div>
+
+  <!-- Grid Main Area -->
+  <div class="p2g-grid-container">
+    <div class="aac-grid" id="grid"></div>
+  </div>
+
+  <!-- Bottom Navigation Dock -->
+  <div class="p2g-bottom-dock">
+    <button class="dock-btn" onclick="openKeyboard()">
+      <svg viewBox="0 0 24 24"><path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-3 0h2v2H5v-2zm0-3h2v2H5V8zm11 10H8v-2h8v2zm1-3h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z"/></svg>
+      Keyboard
+    </button>
+    <button class="dock-btn" onclick="goHome()">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      Home
+    </button>
+    <button class="dock-btn" onclick="showBigText()">
+      <svg viewBox="0 0 24 24"><path d="M2.5 4v3h5v12h3V7h5V4h-13zm19 5h-9v3h3v7h3v-7h3V9z"/></svg>
+      Big Text
+    </button>
+    <div class="dropdown">
+      <button class="dock-btn dropdown-toggle" type="button" data-bs-toggle="dropdown">
+        <svg viewBox="0 0 24 24"><path d="M12 15c1.66 0 2.99-1.34 2.99-3L15 6c0-1.66-1.34-3-3-3S9 4.34 9 6v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 15 6.7 12H5c0 3.41 2.72 6.23 6 6.72V22h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z"/></svg>
+        Voice
+      </button>
+      <ul class="dropdown-menu dropdown-menu-dark" id="voiceSelectMenu"></ul>
+    </div>
+  </div>
+
+  <!-- Keyboard Modal Overlay -->
+  <div class="modal fade" id="keyboardModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bg-dark text-white border-secondary">
+        <div class="modal-header border-secondary py-2">
+          <h6 class="modal-title">Type Words</h6>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="text" id="customInput" class="form-control form-control-lg mb-3" placeholder="Type here...">
+          <button class="btn btn-primary w-100 fw-bold" onclick="submitCustomText()">Add to Sentence</button>
+        </div>
       </div>
     </div>
-  </header>
-
-  <!-- Main AAC Grid -->
-  <main class="flex-grow-1 min-vh-0">
-    <div class="aac-grid" id="grid"></div>
-  </main>
+  </div>
 
   <!-- Big Text Modal -->
   <div class="modal fade" id="bigTextModal" tabindex="-1" onclick="closeBigText()">
@@ -198,32 +299,88 @@
 
     const grid = document.getElementById('grid');
     const speechTokens = document.getElementById('speechTokens');
-    const backBtn = document.getElementById('backBtn');
-    const voiceSelect = document.getElementById('voiceSelect');
+    const folderHeader = document.getElementById('folderHeader');
+    const voiceSelectMenu = document.getElementById('voiceSelectMenu');
 
     const expandedFallbackTiles = [
       { label: "I", colorGroup: "yellow", symbol_ref: "i" },
-      { label: "me", colorGroup: "yellow", symbol_ref: "me" },
-      { label: "want", colorGroup: "green", symbol_ref: "want" },
+      { label: "is", colorGroup: "pink", symbol_ref: "is" },
+      { label: "can", colorGroup: "pink", symbol_ref: "can" },
+      { label: "will", colorGroup: "pink", symbol_ref: "will" },
+      { label: "do", colorGroup: "pink", symbol_ref: "do" },
+      { label: "have", colorGroup: "pink", symbol_ref: "have" },
+      { label: "what", colorGroup: "pink", symbol_ref: "what" },
+      { label: "where", colorGroup: "pink", symbol_ref: "where" },
+      { label: "who", colorGroup: "pink", symbol_ref: "who" },
+      { label: "not", colorGroup: "blue", symbol_ref: "not" },
+
+      { label: "you", colorGroup: "yellow", symbol_ref: "you" },
+      { label: "we", colorGroup: "yellow", symbol_ref: "we" },
+      { label: "want", colorGroup: "pink", symbol_ref: "want" },
+      { label: "like", colorGroup: "pink", symbol_ref: "like" },
+      { label: "need", colorGroup: "pink", symbol_ref: "need" },
+      { label: "get", colorGroup: "pink", symbol_ref: "get" },
+      { label: "to", colorGroup: "green", symbol_ref: "to" },
+      { label: "with", colorGroup: "green", symbol_ref: "with" },
+      { label: "in", colorGroup: "green", symbol_ref: "in" },
+      { label: "more", colorGroup: "orange", symbol_ref: "more" },
+
+      { label: "he", colorGroup: "yellow", symbol_ref: "he" },
+      { label: "she", colorGroup: "yellow", symbol_ref: "she" },
+      { label: "stop", colorGroup: "pink", symbol_ref: "stop" },
       { label: "go", colorGroup: "green", symbol_ref: "go" },
-      { label: "stop", colorGroup: "green", symbol_ref: "stop" },
-      { label: "food", colorGroup: "orange", symbol_ref: "food", type: "folder" },
-      { label: "yes", colorGroup: "pink", symbol_ref: "yes" },
-      { label: "no", colorGroup: "pink", symbol_ref: "no" }
+      { label: "come", colorGroup: "pink", symbol_ref: "come" },
+      { label: "take", colorGroup: "pink", symbol_ref: "take" },
+      { label: "for", colorGroup: "green", symbol_ref: "for" },
+      { label: "here", colorGroup: "green", symbol_ref: "here" },
+      { label: "out", colorGroup: "green", symbol_ref: "out" },
+      { label: "good", colorGroup: "blue", symbol_ref: "good" },
+
+      { label: "it", colorGroup: "yellow", symbol_ref: "it" },
+      { label: "this", colorGroup: "yellow", symbol_ref: "this" },
+      { label: "see", colorGroup: "pink", symbol_ref: "see" },
+      { label: "look", colorGroup: "pink", symbol_ref: "look" },
+      { label: "put", colorGroup: "pink", symbol_ref: "put" },
+      { label: "make", colorGroup: "pink", symbol_ref: "make" },
+      { label: "of", colorGroup: "green", symbol_ref: "of" },
+      { label: "there", colorGroup: "green", symbol_ref: "there" },
+      { label: "up", colorGroup: "green", symbol_ref: "up" },
+      { label: "bad", colorGroup: "blue", symbol_ref: "bad" },
+
+      { label: "they", colorGroup: "yellow", symbol_ref: "they" },
+      { label: "that", colorGroup: "yellow", symbol_ref: "that" },
+      { label: "think", colorGroup: "pink", symbol_ref: "think" },
+      { label: "know", colorGroup: "pink", symbol_ref: "know" },
+      { label: "say", colorGroup: "pink", symbol_ref: "say" },
+      { label: "give", colorGroup: "pink", symbol_ref: "give" },
+      { label: "on", colorGroup: "green", symbol_ref: "on" },
+      { label: "off", colorGroup: "green", symbol_ref: "off" },
+      { label: "down", colorGroup: "green", symbol_ref: "down" },
+      { label: "help", colorGroup: "pink", symbol_ref: "help" },
+
+      { label: "People", colorGroup: "white", symbol_ref: "people", type: "folder" },
+      { label: "Things", colorGroup: "white", symbol_ref: "things", type: "folder" },
+      { label: "Food", colorGroup: "white", symbol_ref: "food", type: "folder" },
+      { label: "Places", colorGroup: "white", symbol_ref: "places", type: "folder" },
+      { label: "Actions", colorGroup: "white", symbol_ref: "actions", type: "folder" },
+      { label: "Describe", colorGroup: "white", symbol_ref: "describe", type: "folder" },
+      { label: "Chat", colorGroup: "white", symbol_ref: "chat", type: "folder" },
+      { label: "Help", colorGroup: "white", symbol_ref: "help_folder", type: "folder" },
+      { label: "Questions", colorGroup: "white", symbol_ref: "questions", type: "folder" },
+      { label: "More", colorGroup: "white", symbol_ref: "more_folder", type: "folder" }
     ];
 
     async function initApp() {
       try {
-        document.getElementById('loadBar').style.width = '40%';
+        document.getElementById('loadBar').style.width = '50%';
         const libRes = await fetch('symbols-library.json').catch(() => null);
         if (libRes && libRes.ok) symbolLibrary = await libRes.json();
 
-        document.getElementById('loadBar').style.width = '80%';
         const boardRes = await fetch('board.json').catch(() => null);
         if (boardRes && boardRes.ok) boardConfig = await boardRes.json();
 
         const tilesToRender = (boardConfig && boardConfig.tiles) ? boardConfig.tiles : expandedFallbackTiles;
-        renderBoard(tilesToRender, false);
+        renderBoard(tilesToRender, "🏠 Home");
 
         document.getElementById('loadBar').style.width = '100%';
         setTimeout(() => {
@@ -233,7 +390,7 @@
 
         populateVoices();
       } catch (err) {
-        renderBoard(expandedFallbackTiles, false);
+        renderBoard(expandedFallbackTiles, "🏠 Home");
         populateVoices();
       }
     }
@@ -247,9 +404,9 @@
       return `symbols/${ref}.png`;
     }
 
-    function renderBoard(tiles, isSubFolder = false) {
+    function renderBoard(tiles, folderName = "🏠 Home") {
       grid.innerHTML = '';
-      backBtn.style.display = isSubFolder ? 'block' : 'none';
+      folderHeader.textContent = folderName;
 
       tiles.forEach(tile => {
         const card = document.createElement('div');
@@ -261,21 +418,27 @@
 
         card.innerHTML = `
           <span class="card-label">${tile.label}</span>
-          ${imgPath ? `<img src="${imgPath}" alt="${tile.label}" onerror="this.style.display='none'">` : ''}
+          ${imgPath ? `<img src="${imgPath}" alt="${tile.label}" onerror="handleImgError(this)">` : ''}
         `;
 
+        if (!imgPath) card.classList.add('no-img');
+
         card.onclick = () => {
-          triggerAudioAndAction(() => {
-            if (isFolder && tile.subGrid) {
-              renderBoard(tile.subGrid, true);
-            } else {
-              addToken(tile.label, imgPath, tile.speak || tile.label);
-            }
-          });
+          if (isFolder && tile.subGrid) {
+            renderBoard(tile.subGrid, `📁 ${tile.label}`);
+          } else {
+            addToken(tile.label, imgPath, tile.speak || tile.label);
+          }
         };
 
         grid.appendChild(card);
       });
+    }
+
+    function handleImgError(img) {
+      const parent = img.parentElement;
+      img.remove();
+      if (parent) parent.classList.add('no-img');
     }
 
     function addToken(label, imgPath, speakText) {
@@ -288,34 +451,30 @@
       speechTokens.innerHTML = '';
       selectedTokens.forEach(token => {
         const chip = document.createElement('div');
-        chip.className = 'token-chip';
+        chip.className = 'p2g-token';
         chip.innerHTML = `
-          <span class="mb-1">${token.label}</span>
-          ${token.imgPath ? `<img src="${token.imgPath}" onerror="this.style.display='none'">` : ''}
+          ${token.imgPath ? `<img src="${token.imgPath}" onerror="this.remove()">` : ''}
+          <span>${token.label}</span>
         `;
         speechTokens.appendChild(chip);
       });
       speechTokens.scrollLeft = speechTokens.scrollWidth;
     }
 
-    /* Fixed Audio & Speech Synthesis Engine */
-    function triggerAudioAndAction(actionFn) {
-      if (window.speechSynthesis.paused) window.speechSynthesis.resume();
-      actionFn();
+    function deleteLastToken() {
+      selectedTokens.pop();
+      renderTokens();
     }
 
     function speakWord(text) {
       if (!text) return;
-      window.speechSynthesis.cancel(); // Clears stuck audio queues
-      
+      window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       if (availableVoices.length > 0) {
         let voiceObj = availableVoices.find(v => v.voiceURI === selectedVoiceURI);
         if (voiceObj) utterance.voice = voiceObj;
       }
-
       utterance.rate = 0.95;
-      utterance.volume = 1.0;
       window.speechSynthesis.speak(utterance);
     }
 
@@ -325,11 +484,6 @@
       speakWord(fullText);
     }
 
-    function clearText() {
-      selectedTokens = [];
-      renderTokens();
-    }
-
     function populateVoices() {
       availableVoices = window.speechSynthesis.getVoices();
       if (availableVoices.length === 0) {
@@ -337,31 +491,56 @@
         return;
       }
 
-      voiceSelect.innerHTML = '';
+      voiceSelectMenu.innerHTML = '';
       availableVoices.forEach((voice) => {
-        const option = document.createElement('option');
-        option.value = voice.voiceURI;
-        option.textContent = `${voice.name} (${voice.lang})`;
-        if (voice.voiceURI === selectedVoiceURI) option.selected = true;
-        voiceSelect.appendChild(option);
+        const li = document.createElement('li');
+        li.innerHTML = `<a class="dropdown-item ${voice.voiceURI === selectedVoiceURI ? 'active' : ''}" href="#" onclick="selectVoice('${voice.voiceURI}')">${voice.name} (${voice.lang})</a>`;
+        voiceSelectMenu.appendChild(li);
       });
 
       if (!selectedVoiceURI && availableVoices.length > 0) {
         const bestVoice = availableVoices.find(v => v.lang.startsWith('en') && (v.name.includes('Enhanced') || v.name.includes('Natural'))) || availableVoices[0];
         selectedVoiceURI = bestVoice.voiceURI;
-        voiceSelect.value = selectedVoiceURI;
       }
     }
 
-    function changeVoice() {
-      selectedVoiceURI = voiceSelect.value;
+    function selectVoice(uri) {
+      selectedVoiceURI = uri;
       localStorage.setItem('ispeak_voice_uri', selectedVoiceURI);
+      populateVoices();
       speakWord("Voice changed");
+    }
+
+    function openKeyboard() {
+      const modal = new bootstrap.Modal(document.getElementById('keyboardModal'));
+      modal.show();
+    }
+
+    function submitCustomText() {
+      const input = document.getElementById('customInput');
+      if (input.value.trim()) {
+        addToken(input.value.trim(), null, input.value.trim());
+        input.value = '';
+        bootstrap.Modal.getInstance(document.getElementById('keyboardModal')).hide();
+      }
+    }
+
+    function showBigText() {
+      const text = selectedTokens.length > 0 ? selectedTokens.map(t => t.label).join(' ') : "READY";
+      document.getElementById('bigTextOverlay').textContent = text;
+      const modal = new bootstrap.Modal(document.getElementById('bigTextModal'));
+      modal.show();
+    }
+
+    function closeBigText() {
+      const modalEl = document.getElementById('bigTextModal');
+      const instance = bootstrap.Modal.getInstance(modalEl);
+      if (instance) instance.hide();
     }
 
     function goHome() {
       const tilesToRender = (boardConfig && boardConfig.tiles) ? boardConfig.tiles : expandedFallbackTiles;
-      renderBoard(tilesToRender, false);
+      renderBoard(tilesToRender, "🏠 Home");
     }
 
     if (typeof window.speechSynthesis !== 'undefined') {
