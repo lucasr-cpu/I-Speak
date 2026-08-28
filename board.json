@@ -286,7 +286,7 @@
             { "label": "Favorite Plushie", "speak": "I want my stuffed animal.", "symbol_ref": "bear", "colorGroup": "orange" },
             { "label": "Trains", "speak": "I want to look at trains.", "symbol_ref": "train", "colorGroup": "orange" },
             { "label": "Dinosaurs", "speak": "Let's talk about dinosaurs.", "symbol_ref": "dinosaur", "colorGroup": "orange" },
-            { "label": "Space / Planets", "speak": "I want to look at space.", "symbol_ref": "space", "colorGroup": "orange" }
+            { "label": "Outer Space", "speak": "I want to look at space.", "symbol_ref": "outer_space", "colorGroup": "orange" }
           ]
         }
       ]
@@ -313,41 +313,6 @@
         { "label": "Tight Hug", "speak": "I need a tight squeeze.", "symbol_ref": "squeeze", "colorGroup": "blue" },
         { "label": "Dim Lights", "speak": "Please turn down the lights.", "symbol_ref": "dim", "colorGroup": "blue" },
         { "label": "Turn Off Sound", "speak": "Please turn off the sound.", "symbol_ref": "sound_off", "colorGroup": "blue" }
-      ]
-    },
-    {
-      "id": "f_body_health",
-      "label": "Body & Health",
-      "type": "folder",
-      "colorGroup": "blue",
-      "symbol_ref": "body",
-      "subGrid": [
-        { "label": "Hurts", "speak": "Something hurts.", "symbol_ref": "pain", "colorGroup": "blue" },
-        { "label": "Sick", "speak": "I feel sick.", "symbol_ref": "sick", "colorGroup": "blue" },
-        { "label": "Nauseous", "speak": "My tummy feels sick.", "symbol_ref": "nauseous", "colorGroup": "blue" },
-        { "label": "Itchy", "speak": "I am itchy.", "symbol_ref": "itchy", "colorGroup": "blue" },
-        { "label": "Sticky Hands", "speak": "My hands are sticky.", "symbol_ref": "sticky", "colorGroup": "blue" },
-        { "label": "Body Hot", "speak": "My body feels too hot.", "symbol_ref": "hot_body", "colorGroup": "blue" },
-        { "label": "Body Cold", "speak": "My body feels too cold.", "symbol_ref": "cold_body", "colorGroup": "blue" },
-        { "label": "Full Tummy", "speak": "I am full.", "symbol_ref": "full", "colorGroup": "blue" },
-        { "label": "Hungry", "speak": "I am hungry.", "symbol_ref": "hungry", "colorGroup": "blue" },
-        { "label": "Pee", "speak": "I need to pee.", "symbol_ref": "pee", "colorGroup": "blue" },
-        { "label": "Poop", "speak": "I need to poop.", "symbol_ref": "poop", "colorGroup": "blue" },
-        {
-          "id": "f_body_parts",
-          "label": "Body Parts",
-          "type": "folder",
-          "colorGroup": "blue",
-          "symbol_ref": "person",
-          "subGrid": [
-            { "label": "Head", "speak": "My head.", "symbol_ref": "head", "colorGroup": "blue" },
-            { "label": "Tummy", "speak": "My tummy.", "symbol_ref": "tummy", "colorGroup": "blue" },
-            { "label": "Ears", "speak": "My ears.", "symbol_ref": "ears", "colorGroup": "blue" },
-            { "label": "Teeth / Mouth", "speak": "My mouth.", "symbol_ref": "mouth", "colorGroup": "blue" },
-            { "label": "Arm", "speak": "My arm.", "symbol_ref": "arm", "colorGroup": "blue" },
-            { "label": "Leg", "speak": "My leg.", "symbol_ref": "leg", "colorGroup": "blue" }
-          ]
-        }
       ]
     },
     {
@@ -477,7 +442,7 @@
       ]
     },
     { "id": "t_dont_touch", "label": "Don't Touch", "speak": "Please do not touch me.", "colorGroup": "pink", "symbol_ref": "no_touch" },
-    { "id": "t_need_space", "label": "Need Space", "speak": "I need some space please.", "colorGroup": "pink", "symbol_ref": "space" },
+    { "id": "t_need_space", "label": "Need Space", "speak": "I need some space please.", "colorGroup": "pink", "symbol_ref": "user_space" },
     { "id": "t_wait", "label": "Wait", "speak": "Please wait.", "colorGroup": "purple", "symbol_ref": "wait" },
     { "id": "t_all_done", "label": "All Done", "speak": "I am all done.", "colorGroup": "green", "symbol_ref": "done" },
     { "id": "t_dont_know", "label": "I Don't Know", "speak": "I do not know.", "colorGroup": "purple", "symbol_ref": "dontknow" },
