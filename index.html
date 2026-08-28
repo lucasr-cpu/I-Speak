@@ -6,55 +6,74 @@
   <title>I-Speak AAC</title>
 
   <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#000000">
 
   <style>
     :root {
-      --bs-body-bg: #000000;
-      --bs-body-color: #000000;
-    }
-    * {
-      touch-action: manipulation;
-      user-select: none;
-      -webkit-user-select: none;
-      box-sizing: border-box;
-    }
-    body {
-      height: 100dvh;
-      width: 100vw;
-      overflow: hidden;
-      background-color: #000000;
-      display: flex;
-      flex-direction: column;
-      margin: 0;
-      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      --bs-body-bg: #121212;
+      --bs-body-color: #ffffff;
     }
 
-    /* 1. Proloquo Top Sentence Bar */
-    .p2g-sentence-container {
-      height: 64px;
-      background: #ffffff;
+    /* Native App Feel: Disable browser interactions & scrolling */
+    html, body {
+      height: 100dvh;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      position: fixed;
+      touch-action: none;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+      background-color: #000000;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
+
+    /* 1. LAMP Top Sentence Bar */
+    .lamp-sentence-bar {
+      height: 62px;
+      background: linear-gradient(#ffffff, #f4f6f9);
       display: flex;
       align-items: center;
-      border-bottom: 2px solid #000000;
-      padding: 2px 6px;
+      border-bottom: 1px solid #d6dbe3;
+      padding: 4px 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      z-index: 2;
     }
-    .p2g-sentence-bar {
+    .lamp-tokens-container {
       flex: 1;
       height: 100%;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
       overflow-x: auto;
-      cursor: pointer;
+      scroll-behavior: smooth;
     }
-    .p2g-token {
-      height: 54px;
-      min-width: 44px;
+    .lamp-token {
+      height: 52px;
+      min-width: 40px;
       background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -62,50 +81,58 @@
       padding: 2px 4px;
       flex-shrink: 0;
     }
-    .p2g-token span {
+    .lamp-token span {
+      order: 2;
       font-size: 10px;
       font-weight: 800;
       color: #000000;
       line-height: 1;
     }
-    .p2g-token img {
-      height: 32px;
+    .lamp-token img {
+      order: 1;
+      height: 30px;
       width: auto;
       object-fit: contain;
     }
-    .p2g-delete-btn {
+    .lamp-delete-btn {
       width: 44px;
       height: 44px;
-      background: #262626;
+      background: #222222;
       color: #ffffff;
-      border-radius: 6px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      font-weight: bold;
+      font-size: 20px;
+      font-weight: 900;
       cursor: pointer;
-      border: 1px solid #000000;
+      border: 1px solid #444444;
+      margin-left: 4px;
+    }
+    .lamp-delete-btn:active {
+      background: #dc2626;
     }
 
-    /* 2. Folder Context Header */
-    .p2g-folder-header {
-      height: 28px;
-      background: #1a1a1a;
-      color: #ffffff;
+    /* 2. Sub-Header Context Bar */
+    .lamp-context-bar {
+      height: 26px;
+      background: linear-gradient(#1e293b, #16202f);
+      color: #38bdf8;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 12px;
+      justify-content: space-between;
+      padding: 0 12px;
+      font-size: 11px;
       font-weight: 700;
-      border-bottom: 1px solid #333333;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #0b1220;
     }
 
-    /* 3. High Density AAC Grid (Matches Screenshots) */
-    .p2g-grid-container {
+    /* 3. LAMP 84-Location Grid Layout (12x7) */
+    .lamp-grid-wrapper {
       flex: 1;
       min-height: 0;
-      background: #d1d5db;
+      background: linear-gradient(180deg, #0f172a, #0b1220);
       padding: 3px;
     }
     .aac-grid {
@@ -113,15 +140,22 @@
       gap: 3px;
       height: 100%;
       width: 100%;
-      grid-template-columns: repeat(10, 1fr);
-      grid-template-rows: repeat(6, 1fr);
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: repeat(7, 1fr);
+    }
+    .aac-grid.fade-in {
+      animation: gridFadeIn 0.16s ease-out;
+    }
+    @keyframes gridFadeIn {
+      from { opacity: 0; transform: scale(0.99); }
+      to { opacity: 1; transform: scale(1); }
     }
 
-    /* Proloquo Tile Design */
+    /* LAMP Tile Design */
     .aac-card {
       background: #ffffff;
-      border: 1px solid #333333;
-      border-radius: 4px;
+      border: 2px solid #1a1a1a;
+      border-radius: 8px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -132,13 +166,19 @@
       overflow: hidden;
       height: 100%;
       width: 100%;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.25);
     }
     .aac-card:active {
-      opacity: 0.7;
+      transform: scale(0.94);
+      opacity: 0.85;
+      box-shadow: none;
     }
+    /* Real LAMP order: picture takes up most of the button, word sits in a strip at the bottom */
     .card-label {
-      font-size: clamp(9px, 1.1vw, 12px);
-      font-weight: 800;
+      order: 2;
+      font-family: 'Poppins', -apple-system, sans-serif;
+      font-size: clamp(8px, 0.9vw, 11px);
+      font-weight: 700;
       color: #000000;
       text-align: center;
       line-height: 1.1;
@@ -146,11 +186,15 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      margin-bottom: 1px;
+      margin-top: 1px;
+      padding-top: 1px;
+      border-top: 1px solid rgba(0,0,0,0.15);
     }
     .aac-card img {
+      order: 1;
       flex: 1;
-      max-height: 72%;
+      min-height: 0;
+      max-height: 100%;
       max-width: 95%;
       object-fit: contain;
       pointer-events: none;
@@ -158,56 +202,78 @@
     .aac-card.no-img {
       justify-content: center;
     }
+    .aac-card.no-img .card-label {
+      border-top: none;
+      font-size: clamp(9px, 1.1vw, 13px);
+    }
 
-    /* Authentic Color Coding */
+    /* Standard Fitzgerald Key Color Coding */
     .cg-yellow { background-color: #fef08a; } /* Pronouns */
     .cg-green  { background-color: #bbf7d0; } /* Verbs */
-    .cg-orange { background-color: #ffedd5; } /* Nouns */
-    .cg-pink   { background-color: #fbcfe8; } /* Social / Modifiers */
+    .cg-orange { background-color: #fed7aa; } /* Nouns */
+    .cg-pink   { background-color: #fbcfe8; } /* Social/Adjectives */
     .cg-blue   { background-color: #bae6fd; } /* Prepositions */
     .cg-white  { background-color: #ffffff; }
 
+    .is-folder {
+      border-color: #0f172a;
+    }
     .is-folder::after {
-      content: '📁';
+      content: '';
       position: absolute;
-      top: 1px;
-      right: 2px;
-      font-size: 10px;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 11px 11px 0;
+      border-color: transparent #0f172a transparent transparent;
     }
 
-    /* 4. Bottom Proloquo Navigation Dock */
-    .p2g-bottom-dock {
-      height: 48px;
-      background: #000000;
+    /* 4. Native Bottom Dock */
+    .lamp-dock {
+      height: 54px;
+      background: linear-gradient(#0a0a0a, #000000);
       display: flex;
       align-items: center;
       justify-content: space-around;
-      padding: 0 10px;
       border-top: 1px solid #222222;
+      padding: 2px 4px;
     }
     .dock-btn {
       background: transparent;
       border: none;
-      color: #ffffff;
+      color: #94a3b8;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
-      font-weight: 600;
-      cursor: pointer;
       gap: 2px;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: 'Poppins', -apple-system, sans-serif;
+      cursor: pointer;
+      padding: 6px 14px;
+      border-radius: 14px;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .dock-btn:active {
+      background: rgba(56, 189, 248, 0.18);
+      color: #38bdf8;
+    }
+    .dock-btn:hover {
+      color: #38bdf8;
     }
     .dock-btn svg {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       fill: currentColor;
     }
 
     #splash {
       position: fixed;
       inset: 0;
-      background: #000000;
+      background: #0f172a;
       z-index: 99999;
       display: flex;
       flex-direction: column;
@@ -218,31 +284,35 @@
 </head>
 <body>
 
+  <!-- Loading Splash -->
   <div id="splash">
-    <h3 class="text-white fw-bold mb-3">I-SPEAK AAC</h3>
+    <h4 class="text-white fw-bold mb-3">I-SPEAK AAC (LAMP)</h4>
     <div class="progress w-50" style="height: 6px;">
-      <div id="loadBar" class="progress-bar bg-primary" style="width: 0%"></div>
+      <div id="loadBar" class="progress-bar bg-info" style="width: 0%"></div>
     </div>
   </div>
 
   <!-- Top Sentence Bar -->
-  <div class="p2g-sentence-container">
-    <div class="p2g-sentence-bar" id="speechTokens" onclick="speakPhrase()"></div>
-    <div class="p2g-delete-btn" onclick="deleteLastToken()">✖</div>
+  <div class="lamp-sentence-bar">
+    <div class="lamp-tokens-container" id="speechTokens" onclick="speakPhrase()"></div>
+    <div class="lamp-delete-btn" onclick="deleteLastToken()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </div>
   </div>
 
-  <!-- Active Folder Header -->
-  <div class="p2g-folder-header" id="folderHeader">
-    🏠 Home
+  <!-- Sub-Header Context Bar -->
+  <div class="lamp-context-bar">
+    <span id="folderTitle">VOCAB: HOME</span>
+    <span id="voiceLabel" class="text-muted">VOICE: DEFAULT</span>
   </div>
 
-  <!-- Grid Main Area -->
-  <div class="p2g-grid-container">
+  <!-- 84-Location Grid -->
+  <div class="lamp-grid-wrapper">
     <div class="aac-grid" id="grid"></div>
   </div>
 
-  <!-- Bottom Navigation Dock -->
-  <div class="p2g-bottom-dock">
+  <!-- Bottom Native Navigation Dock -->
+  <div class="lamp-dock">
     <button class="dock-btn" onclick="openKeyboard()">
       <svg viewBox="0 0 24 24"><path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-3 0h2v2H5v-2zm0-3h2v2H5V8zm11 10H8v-2h8v2zm1-3h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z"/></svg>
       Keyboard
@@ -264,23 +334,23 @@
     </div>
   </div>
 
-  <!-- Keyboard Modal Overlay -->
+  <!-- Keyboard Modal -->
   <div class="modal fade" id="keyboardModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-dark text-white border-secondary">
         <div class="modal-header border-secondary py-2">
-          <h6 class="modal-title">Type Words</h6>
+          <h6 class="modal-title">Type Custom Word</h6>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <input type="text" id="customInput" class="form-control form-control-lg mb-3" placeholder="Type here...">
+          <input type="text" id="customInput" class="form-control form-control-lg mb-3" placeholder="Type word or phrase...">
           <button class="btn btn-primary w-100 fw-bold" onclick="submitCustomText()">Add to Sentence</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Big Text Modal -->
+  <!-- Big Text Fullscreen Modal -->
   <div class="modal fade" id="bigTextModal" tabindex="-1" onclick="closeBigText()">
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content bg-white d-flex align-items-center justify-content-center p-4">
@@ -299,88 +369,116 @@
 
     const grid = document.getElementById('grid');
     const speechTokens = document.getElementById('speechTokens');
-    const folderHeader = document.getElementById('folderHeader');
+    const folderTitle = document.getElementById('folderTitle');
+    const voiceLabel = document.getElementById('voiceLabel');
     const voiceSelectMenu = document.getElementById('voiceSelectMenu');
 
-    const expandedFallbackTiles = [
+    // Default LAMP 84-Grid High-Density Fallback
+    const lampFallback84 = [
+      { label: "finished", colorGroup: "white", symbol_ref: "finished" },
+      { label: "mine", colorGroup: "white", symbol_ref: "mine" },
+      { label: "little", colorGroup: "white", symbol_ref: "little" },
+      { label: "up", colorGroup: "white", symbol_ref: "up" },
+      { label: "yes", colorGroup: "white", symbol_ref: "yes" },
+      { label: "good", colorGroup: "white", symbol_ref: "good" },
+      { label: "some", colorGroup: "white", symbol_ref: "some" },
+      { label: "no", colorGroup: "white", symbol_ref: "no" },
+      { label: "down", colorGroup: "white", symbol_ref: "down" },
+      { label: "out", colorGroup: "white", symbol_ref: "out" },
+      { label: "off", colorGroup: "white", symbol_ref: "off" },
+      { label: "bad", colorGroup: "white", symbol_ref: "bad" },
+
+      { label: "me", colorGroup: "yellow", symbol_ref: "me" },
+      { label: "my", colorGroup: "yellow", symbol_ref: "my" },
+      { label: "wear", colorGroup: "white", symbol_ref: "wear" },
+      { label: "am", colorGroup: "white", symbol_ref: "am" },
+      { label: "please", colorGroup: "pink", symbol_ref: "please" },
+      { label: "that", colorGroup: "pink", symbol_ref: "that" },
+      { label: "and", colorGroup: "pink", symbol_ref: "and" },
+      { label: "in", colorGroup: "green", symbol_ref: "in" },
+      { label: "what", colorGroup: "orange", symbol_ref: "what" },
+      { label: "a", colorGroup: "orange", symbol_ref: "a" },
+      { label: "the", colorGroup: "orange", symbol_ref: "the" },
+      { label: "there", colorGroup: "white", symbol_ref: "there" },
+
       { label: "I", colorGroup: "yellow", symbol_ref: "i" },
-      { label: "is", colorGroup: "pink", symbol_ref: "is" },
+      { label: "we", colorGroup: "yellow", symbol_ref: "we" },
+      { label: "are", colorGroup: "green", symbol_ref: "are" },
+      { label: "is", colorGroup: "green", symbol_ref: "is" },
+      { label: "were", colorGroup: "green", symbol_ref: "were" },
+      { label: "was", colorGroup: "green", symbol_ref: "was" },
+      { label: "on", colorGroup: "green", symbol_ref: "on" },
+      { label: "to", colorGroup: "green", symbol_ref: "to" },
       { label: "can", colorGroup: "pink", symbol_ref: "can" },
-      { label: "will", colorGroup: "pink", symbol_ref: "will" },
-      { label: "do", colorGroup: "pink", symbol_ref: "do" },
-      { label: "have", colorGroup: "pink", symbol_ref: "have" },
-      { label: "what", colorGroup: "pink", symbol_ref: "what" },
-      { label: "where", colorGroup: "pink", symbol_ref: "where" },
-      { label: "who", colorGroup: "pink", symbol_ref: "who" },
-      { label: "not", colorGroup: "blue", symbol_ref: "not" },
+      { label: "an", colorGroup: "pink", symbol_ref: "an" },
+      { label: "the", colorGroup: "pink", symbol_ref: "the" },
+      { label: "end", colorGroup: "white", symbol_ref: "end" },
 
       { label: "you", colorGroup: "yellow", symbol_ref: "you" },
-      { label: "we", colorGroup: "yellow", symbol_ref: "we" },
-      { label: "want", colorGroup: "pink", symbol_ref: "want" },
+      { label: "they", colorGroup: "yellow", symbol_ref: "they" },
+      { label: "new", colorGroup: "white", symbol_ref: "new" },
+      { label: "play", colorGroup: "pink", symbol_ref: "play" },
       { label: "like", colorGroup: "pink", symbol_ref: "like" },
-      { label: "need", colorGroup: "pink", symbol_ref: "need" },
-      { label: "get", colorGroup: "pink", symbol_ref: "get" },
-      { label: "to", colorGroup: "green", symbol_ref: "to" },
-      { label: "with", colorGroup: "green", symbol_ref: "with" },
-      { label: "in", colorGroup: "green", symbol_ref: "in" },
-      { label: "more", colorGroup: "orange", symbol_ref: "more" },
-
-      { label: "he", colorGroup: "yellow", symbol_ref: "he" },
-      { label: "she", colorGroup: "yellow", symbol_ref: "she" },
+      { label: "work", colorGroup: "pink", symbol_ref: "work" },
+      { label: "have", colorGroup: "pink", symbol_ref: "have" },
+      { label: "feel", colorGroup: "pink", symbol_ref: "feel" },
+      { label: "read", colorGroup: "pink", symbol_ref: "read" },
+      { label: "more", colorGroup: "blue", symbol_ref: "more" },
+      { label: "fast", colorGroup: "blue", symbol_ref: "fast" },
       { label: "stop", colorGroup: "pink", symbol_ref: "stop" },
-      { label: "go", colorGroup: "green", symbol_ref: "go" },
-      { label: "come", colorGroup: "pink", symbol_ref: "come" },
-      { label: "take", colorGroup: "pink", symbol_ref: "take" },
-      { label: "for", colorGroup: "green", symbol_ref: "for" },
-      { label: "here", colorGroup: "green", symbol_ref: "here" },
-      { label: "out", colorGroup: "green", symbol_ref: "out" },
-      { label: "good", colorGroup: "blue", symbol_ref: "good" },
 
       { label: "it", colorGroup: "yellow", symbol_ref: "it" },
-      { label: "this", colorGroup: "yellow", symbol_ref: "this" },
-      { label: "see", colorGroup: "pink", symbol_ref: "see" },
-      { label: "look", colorGroup: "pink", symbol_ref: "look" },
-      { label: "put", colorGroup: "pink", symbol_ref: "put" },
-      { label: "make", colorGroup: "pink", symbol_ref: "make" },
-      { label: "of", colorGroup: "green", symbol_ref: "of" },
-      { label: "there", colorGroup: "green", symbol_ref: "there" },
-      { label: "up", colorGroup: "green", symbol_ref: "up" },
-      { label: "bad", colorGroup: "blue", symbol_ref: "bad" },
-
-      { label: "they", colorGroup: "yellow", symbol_ref: "they" },
-      { label: "that", colorGroup: "yellow", symbol_ref: "that" },
-      { label: "think", colorGroup: "pink", symbol_ref: "think" },
-      { label: "know", colorGroup: "pink", symbol_ref: "know" },
-      { label: "say", colorGroup: "pink", symbol_ref: "say" },
-      { label: "give", colorGroup: "pink", symbol_ref: "give" },
-      { label: "on", colorGroup: "green", symbol_ref: "on" },
-      { label: "off", colorGroup: "green", symbol_ref: "off" },
-      { label: "down", colorGroup: "green", symbol_ref: "down" },
+      { label: "he", colorGroup: "yellow", symbol_ref: "he" },
+      { label: "want", colorGroup: "pink", symbol_ref: "want" },
+      { label: "all", colorGroup: "pink", symbol_ref: "all" },
+      { label: "come", colorGroup: "pink", symbol_ref: "come" },
+      { label: "time", colorGroup: "white", symbol_ref: "time" },
+      { label: "do", colorGroup: "pink", symbol_ref: "do" },
+      { label: "go", colorGroup: "green", symbol_ref: "go" },
+      { label: "get", colorGroup: "pink", symbol_ref: "get" },
+      { label: "big", colorGroup: "blue", symbol_ref: "big" },
+      { label: "color", colorGroup: "blue", symbol_ref: "color" },
       { label: "help", colorGroup: "pink", symbol_ref: "help" },
 
-      { label: "People", colorGroup: "white", symbol_ref: "people", type: "folder" },
-      { label: "Things", colorGroup: "white", symbol_ref: "things", type: "folder" },
-      { label: "Food", colorGroup: "white", symbol_ref: "food", type: "folder" },
-      { label: "Places", colorGroup: "white", symbol_ref: "places", type: "folder" },
-      { label: "Actions", colorGroup: "white", symbol_ref: "actions", type: "folder" },
-      { label: "Describe", colorGroup: "white", symbol_ref: "describe", type: "folder" },
-      { label: "Chat", colorGroup: "white", symbol_ref: "chat", type: "folder" },
-      { label: "Help", colorGroup: "white", symbol_ref: "help_folder", type: "folder" },
-      { label: "Questions", colorGroup: "white", symbol_ref: "questions", type: "folder" },
-      { label: "More", colorGroup: "white", symbol_ref: "more_folder", type: "folder" }
+      { label: "she", colorGroup: "yellow", symbol_ref: "she" },
+      { label: "look", colorGroup: "pink", symbol_ref: "look" },
+      { label: "slow", colorGroup: "white", symbol_ref: "slow" },
+      { label: "hear", colorGroup: "pink", symbol_ref: "hear" },
+      { label: "think", colorGroup: "pink", symbol_ref: "think" },
+      { label: "right", colorGroup: "pink", symbol_ref: "right" },
+      { label: "said", colorGroup: "pink", symbol_ref: "said" },
+      { label: "live", colorGroup: "pink", symbol_ref: "live" },
+      { label: "love", colorGroup: "pink", symbol_ref: "love" },
+      { label: "follow", colorGroup: "pink", symbol_ref: "follow" },
+      { label: "ride", colorGroup: "pink", symbol_ref: "ride" },
+      { label: "put", colorGroup: "pink", symbol_ref: "put" },
+
+      { label: "CLEAR", colorGroup: "white", symbol_ref: "clear" },
+      { label: "not", colorGroup: "white", symbol_ref: "not" },
+      { label: "talk", colorGroup: "white", symbol_ref: "talk" },
+      { label: "sit", colorGroup: "white", symbol_ref: "sit" },
+      { label: "eat", colorGroup: "white", symbol_ref: "eat" },
+      { label: "find", colorGroup: "white", symbol_ref: "find" },
+      { label: "make", colorGroup: "white", symbol_ref: "make" },
+      { label: "need", colorGroup: "white", symbol_ref: "need" },
+      { label: "drink", colorGroup: "white", symbol_ref: "drink" },
+      { label: "watch", colorGroup: "white", symbol_ref: "watch" },
+      { label: "turn", colorGroup: "white", symbol_ref: "turn" },
+      { label: "sleep", colorGroup: "white", symbol_ref: "sleep" }
     ];
 
     async function initApp() {
       try {
-        document.getElementById('loadBar').style.width = '50%';
+        document.getElementById('loadBar').style.width = '40%';
         const libRes = await fetch('symbols-library.json').catch(() => null);
         if (libRes && libRes.ok) symbolLibrary = await libRes.json();
 
+        document.getElementById('loadBar').style.width = '80%';
         const boardRes = await fetch('board.json').catch(() => null);
         if (boardRes && boardRes.ok) boardConfig = await boardRes.json();
 
-        const tilesToRender = (boardConfig && boardConfig.tiles) ? boardConfig.tiles : expandedFallbackTiles;
-        renderBoard(tilesToRender, "🏠 Home");
+        const tilesToRender = (boardConfig && boardConfig.tiles) ? boardConfig.tiles : lampFallback84;
+        renderBoard(tilesToRender, "HOME");
 
         document.getElementById('loadBar').style.width = '100%';
         setTimeout(() => {
@@ -390,7 +488,7 @@
 
         populateVoices();
       } catch (err) {
-        renderBoard(expandedFallbackTiles, "🏠 Home");
+        renderBoard(lampFallback84, "HOME");
         populateVoices();
       }
     }
@@ -404,9 +502,14 @@
       return `symbols/${ref}.png`;
     }
 
-    function renderBoard(tiles, folderName = "🏠 Home") {
+    function renderBoard(tiles, folderName = "HOME") {
       grid.innerHTML = '';
-      folderHeader.textContent = folderName;
+      folderTitle.textContent = `VOCAB: ${folderName.toUpperCase()}`;
+
+      // Restart the fade-in animation on every render (folder open, home, etc.)
+      grid.classList.remove('fade-in');
+      void grid.offsetWidth; // force reflow so the animation replays
+      grid.classList.add('fade-in');
 
       tiles.forEach(tile => {
         const card = document.createElement('div');
@@ -424,8 +527,13 @@
         if (!imgPath) card.classList.add('no-img');
 
         card.onclick = () => {
+          if (navigator.vibrate) navigator.vibrate(8);
+          if (tile.label === 'CLEAR') {
+            clearText();
+            return;
+          }
           if (isFolder && tile.subGrid) {
-            renderBoard(tile.subGrid, `📁 ${tile.label}`);
+            renderBoard(tile.subGrid, tile.label);
           } else {
             addToken(tile.label, imgPath, tile.speak || tile.label);
           }
@@ -451,10 +559,10 @@
       speechTokens.innerHTML = '';
       selectedTokens.forEach(token => {
         const chip = document.createElement('div');
-        chip.className = 'p2g-token';
+        chip.className = 'lamp-token';
         chip.innerHTML = `
-          ${token.imgPath ? `<img src="${token.imgPath}" onerror="this.remove()">` : ''}
           <span>${token.label}</span>
+          ${token.imgPath ? `<img src="${token.imgPath}" onerror="this.remove()">` : ''}
         `;
         speechTokens.appendChild(chip);
       });
@@ -484,6 +592,11 @@
       speakWord(fullText);
     }
 
+    function clearText() {
+      selectedTokens = [];
+      renderTokens();
+    }
+
     function populateVoices() {
       availableVoices = window.speechSynthesis.getVoices();
       if (availableVoices.length === 0) {
@@ -493,22 +606,33 @@
 
       voiceSelectMenu.innerHTML = '';
       availableVoices.forEach((voice) => {
+        const isPersonal = voice.name.toLowerCase().includes('personal voice');
         const li = document.createElement('li');
-        li.innerHTML = `<a class="dropdown-item ${voice.voiceURI === selectedVoiceURI ? 'active' : ''}" href="#" onclick="selectVoice('${voice.voiceURI}')">${voice.name} (${voice.lang})</a>`;
+        li.innerHTML = `<a class="dropdown-item ${voice.voiceURI === selectedVoiceURI ? 'active' : ''} ${isPersonal ? 'fw-bold' : ''}" href="#" onclick="selectVoice('${voice.voiceURI}', '${voice.name}')">${voice.name} (${voice.lang})${isPersonal ? ' — Your Voice' : ''}</a>`;
         voiceSelectMenu.appendChild(li);
       });
 
       if (!selectedVoiceURI && availableVoices.length > 0) {
-        const bestVoice = availableVoices.find(v => v.lang.startsWith('en') && (v.name.includes('Enhanced') || v.name.includes('Natural'))) || availableVoices[0];
+        // Prefer the user's own Apple Personal Voice if they've set one up,
+        // then fall back to a high-quality system voice.
+        const bestVoice =
+          availableVoices.find(v => v.name.toLowerCase().includes('personal voice')) ||
+          availableVoices.find(v => v.lang.startsWith('en') && (v.name.includes('Enhanced') || v.name.includes('Natural'))) ||
+          availableVoices[0];
         selectedVoiceURI = bestVoice.voiceURI;
+        voiceLabel.textContent = `VOICE: ${bestVoice.name.toUpperCase()}`;
+      } else if (selectedVoiceURI) {
+        const currentVoice = availableVoices.find(v => v.voiceURI === selectedVoiceURI);
+        if (currentVoice) voiceLabel.textContent = `VOICE: ${currentVoice.name.toUpperCase()}`;
       }
     }
 
-    function selectVoice(uri) {
+    function selectVoice(uri, name) {
       selectedVoiceURI = uri;
       localStorage.setItem('ispeak_voice_uri', selectedVoiceURI);
+      voiceLabel.textContent = `VOICE: ${name.toUpperCase()}`;
       populateVoices();
-      speakWord("Voice changed");
+      speakWord("Voice updated");
     }
 
     function openKeyboard() {
@@ -539,8 +663,8 @@
     }
 
     function goHome() {
-      const tilesToRender = (boardConfig && boardConfig.tiles) ? boardConfig.tiles : expandedFallbackTiles;
-      renderBoard(tilesToRender, "🏠 Home");
+      const tilesToRender = (boardConfig && boardConfig.tiles) ? boardConfig.tiles : lampFallback84;
+      renderBoard(tilesToRender, "HOME");
     }
 
     if (typeof window.speechSynthesis !== 'undefined') {
