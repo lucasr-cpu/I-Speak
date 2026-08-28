@@ -9,7 +9,7 @@
       "colorGroup": "yellow",
       "symbol_ref": "people",
       "subGrid": [
-        { "label": "I", "speak": "I", "symbol_ref": "i", "colorGroup": "yellow" },
+        { "label": "I", "speak": "i", "symbol_ref": "i", "colorGroup": "yellow" },
         { "label": "me", "speak": "me", "symbol_ref": "me", "colorGroup": "yellow" },
         { "label": "my", "speak": "my", "symbol_ref": "my", "colorGroup": "yellow" },
         { "label": "you", "speak": "you", "symbol_ref": "you", "colorGroup": "yellow" },
@@ -274,6 +274,20 @@
             { "label": "Music", "speak": "I want to listen to music.", "symbol_ref": "music", "colorGroup": "orange" },
             { "label": "Cartoons", "speak": "I want to watch cartoons.", "symbol_ref": "cartoons", "colorGroup": "orange" }
           ]
+        },
+        {
+          "id": "f_special_interests",
+          "label": "My Favorites",
+          "type": "folder",
+          "colorGroup": "orange",
+          "symbol_ref": "star",
+          "subGrid": [
+            { "label": "Comfort Toy", "speak": "I want my comfort item.", "symbol_ref": "plush", "colorGroup": "orange" },
+            { "label": "Favorite Plushie", "speak": "I want my stuffed animal.", "symbol_ref": "bear", "colorGroup": "orange" },
+            { "label": "Trains", "speak": "I want to look at trains.", "symbol_ref": "train", "colorGroup": "orange" },
+            { "label": "Dinosaurs", "speak": "Let's talk about dinosaurs.", "symbol_ref": "dinosaur", "colorGroup": "orange" },
+            { "label": "Space / Planets", "speak": "I want to look at space.", "symbol_ref": "space", "colorGroup": "orange" }
+          ]
         }
       ]
     },
@@ -292,7 +306,48 @@
         { "label": "Deep Pressure", "speak": "I need deep pressure or a squeeze.", "symbol_ref": "hug", "colorGroup": "blue" },
         { "label": "Too Loud", "speak": "It is too loud in here.", "symbol_ref": "loud", "colorGroup": "blue" },
         { "label": "Too Bright", "speak": "It is too bright.", "symbol_ref": "bright", "colorGroup": "blue" },
-        { "label": "Too Crowded", "speak": "It is too crowded.", "symbol_ref": "crowded", "colorGroup": "blue" }
+        { "label": "Too Crowded", "speak": "It is too crowded.", "symbol_ref": "crowded", "colorGroup": "blue" },
+        { "label": "Rocking", "speak": "I need to rock.", "symbol_ref": "rocking", "colorGroup": "blue" },
+        { "label": "Spinning", "speak": "I need to spin.", "symbol_ref": "spin", "colorGroup": "blue" },
+        { "label": "Chew Toy", "speak": "I need my chew toy.", "symbol_ref": "chew", "colorGroup": "orange" },
+        { "label": "Tight Hug", "speak": "I need a tight squeeze.", "symbol_ref": "squeeze", "colorGroup": "blue" },
+        { "label": "Dim Lights", "speak": "Please turn down the lights.", "symbol_ref": "dim", "colorGroup": "blue" },
+        { "label": "Turn Off Sound", "speak": "Please turn off the sound.", "symbol_ref": "sound_off", "colorGroup": "blue" }
+      ]
+    },
+    {
+      "id": "f_body_health",
+      "label": "Body & Health",
+      "type": "folder",
+      "colorGroup": "blue",
+      "symbol_ref": "body",
+      "subGrid": [
+        { "label": "Hurts", "speak": "Something hurts.", "symbol_ref": "pain", "colorGroup": "blue" },
+        { "label": "Sick", "speak": "I feel sick.", "symbol_ref": "sick", "colorGroup": "blue" },
+        { "label": "Nauseous", "speak": "My tummy feels sick.", "symbol_ref": "nauseous", "colorGroup": "blue" },
+        { "label": "Itchy", "speak": "I am itchy.", "symbol_ref": "itchy", "colorGroup": "blue" },
+        { "label": "Sticky Hands", "speak": "My hands are sticky.", "symbol_ref": "sticky", "colorGroup": "blue" },
+        { "label": "Body Hot", "speak": "My body feels too hot.", "symbol_ref": "hot_body", "colorGroup": "blue" },
+        { "label": "Body Cold", "speak": "My body feels too cold.", "symbol_ref": "cold_body", "colorGroup": "blue" },
+        { "label": "Full Tummy", "speak": "I am full.", "symbol_ref": "full", "colorGroup": "blue" },
+        { "label": "Hungry", "speak": "I am hungry.", "symbol_ref": "hungry", "colorGroup": "blue" },
+        { "label": "Pee", "speak": "I need to pee.", "symbol_ref": "pee", "colorGroup": "blue" },
+        { "label": "Poop", "speak": "I need to poop.", "symbol_ref": "poop", "colorGroup": "blue" },
+        {
+          "id": "f_body_parts",
+          "label": "Body Parts",
+          "type": "folder",
+          "colorGroup": "blue",
+          "symbol_ref": "person",
+          "subGrid": [
+            { "label": "Head", "speak": "My head.", "symbol_ref": "head", "colorGroup": "blue" },
+            { "label": "Tummy", "speak": "My tummy.", "symbol_ref": "tummy", "colorGroup": "blue" },
+            { "label": "Ears", "speak": "My ears.", "symbol_ref": "ears", "colorGroup": "blue" },
+            { "label": "Teeth / Mouth", "speak": "My mouth.", "symbol_ref": "mouth", "colorGroup": "blue" },
+            { "label": "Arm", "speak": "My arm.", "symbol_ref": "arm", "colorGroup": "blue" },
+            { "label": "Leg", "speak": "My leg.", "symbol_ref": "leg", "colorGroup": "blue" }
+          ]
+        }
       ]
     },
     {
@@ -356,6 +411,23 @@
       ]
     },
     {
+      "id": "f_time_schedule",
+      "label": "Time & Schedule",
+      "type": "folder",
+      "colorGroup": "purple",
+      "symbol_ref": "calendar",
+      "subGrid": [
+        { "label": "First / Then", "speak": "First and then.", "symbol_ref": "first_then", "colorGroup": "purple" },
+        { "label": "Next", "speak": "What is next?", "symbol_ref": "next", "colorGroup": "purple" },
+        { "label": "Schedule", "speak": "Let's look at the schedule.", "symbol_ref": "schedule", "colorGroup": "purple" },
+        { "label": "Timer", "speak": "How long on the timer?", "symbol_ref": "timer", "colorGroup": "purple" },
+        { "label": "Finished", "speak": "I am finished.", "symbol_ref": "check", "colorGroup": "purple" },
+        { "label": "Change of Plan", "speak": "There is a change of plan.", "symbol_ref": "change", "colorGroup": "purple" },
+        { "label": "Later", "speak": "We will do it later.", "symbol_ref": "later", "colorGroup": "purple" },
+        { "label": "Soon", "speak": "It will happen soon.", "symbol_ref": "soon", "colorGroup": "purple" }
+      ]
+    },
+    {
       "id": "f_descriptors",
       "label": "Describe & Colors",
       "type": "folder",
@@ -404,6 +476,11 @@
         { "label": "How?", "speak": "How?", "symbol_ref": "how", "colorGroup": "purple" }
       ]
     },
+    { "id": "t_dont_touch", "label": "Don't Touch", "speak": "Please do not touch me.", "colorGroup": "pink", "symbol_ref": "no_touch" },
+    { "id": "t_need_space", "label": "Need Space", "speak": "I need some space please.", "colorGroup": "pink", "symbol_ref": "space" },
+    { "id": "t_wait", "label": "Wait", "speak": "Please wait.", "colorGroup": "purple", "symbol_ref": "wait" },
+    { "id": "t_all_done", "label": "All Done", "speak": "I am all done.", "colorGroup": "green", "symbol_ref": "done" },
+    { "id": "t_dont_know", "label": "I Don't Know", "speak": "I do not know.", "colorGroup": "purple", "symbol_ref": "dontknow" },
     { "id": "t_yes", "label": "Yes", "speak": "Yes", "colorGroup": "pink", "symbol_ref": "yes" },
     { "id": "t_no", "label": "No", "speak": "No", "colorGroup": "pink", "symbol_ref": "no" },
     { "id": "t_help", "label": "Help", "speak": "I need help please.", "colorGroup": "pink", "symbol_ref": "help" },
